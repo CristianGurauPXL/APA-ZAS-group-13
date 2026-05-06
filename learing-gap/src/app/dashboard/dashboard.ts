@@ -244,24 +244,32 @@ export class Dashboard implements OnInit {
   quickActions = [
     {
       label: 'Blood transfusion',
+      icon: 'pi pi-comments',
+      color: '#1a9e8f', // Teal
       bg: '#e8f5f3',
       action: () =>
         this.showToast('info', 'Blood Transfusion', 'Initiating blood transfusion protocol...'),
     },
     {
       label: 'Last alerts',
+      icon: 'pi pi-heart-fill',
+      color: '#e91e63', // Pink/Red
       bg: '#fff3e0',
       badge: 4,
       action: () => this.toggleAlertsSidebar(),
     },
     {
       label: 'Completed 5 tasks',
-      bg: '#e8effe',
+      icon: 'pi pi-bell',
+      color: '#f59e0b',
+      bg: '#fff3e0', // Orange
       action: () =>
         this.showToast('success', 'Tasks Completed', 'You have completed 5 tasks today!'),
     },
     {
       label: 'Task checklist',
+      icon: 'pi pi-check-square',
+      color: '#2b4ec7', // Blue
       bg: '#f0effe',
       action: () => this.showTasksTable(),
     },
@@ -320,26 +328,22 @@ export class Dashboard implements OnInit {
   // VIDEO METHODS
   // ─────────────────────────────────────
 
-  playVideo(module: any): void {
-    if (!module.videoId) {
-      this.showToast('warn', 'No Video', 'This module does not have a video available');
-      return;
-    }
+  displayVideoPlayer: boolean = false;
 
+  playVideo(module: any) {
     this.selectedModule = module;
-    const youtubeEmbedUrl = `https://www.youtube.com/embed/${module.videoId}?autoplay=1`;
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(youtubeEmbedUrl);
-    this.videoDialogVisible = true;
+    // Construct the embed URL. YouTube requires /embed/ for iframe playback.
+    const rawUrl = `https://www.youtube.com/embed/${module.videoId}?autoplay=1`;
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
+    this.displayVideoPlayer = true;
   }
 
-  stopVideo(): void {
-    this.videoUrl = '';
-    this.videoDialogVisible = false;
-    this.selectedModule = null;
+  closeVideo() {
+    this.displayVideoPlayer = false;
   }
 
   onVideoDialogHide(): void {
-    this.stopVideo();
+    this.closeVideo();
   }
 
   completeModule(module: any): void {
@@ -435,15 +439,6 @@ export class Dashboard implements OnInit {
           borderColor: '#1a9e8f',
           borderWidth: 2,
           data: [8, 7, 9, 12, 10, 6, 5],
-          fill: true,
-          tension: 0.4,
-        },
-        {
-          label: 'Modules Completed',
-          backgroundColor: 'rgba(43, 78, 199, 0.2)',
-          borderColor: '#2b4ec7',
-          borderWidth: 2,
-          data: [2, 3, 2, 4, 3, 1, 2],
           fill: true,
           tension: 0.4,
         },

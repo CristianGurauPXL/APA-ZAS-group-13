@@ -69,77 +69,125 @@
       </ng-template>
 
       <div class="schedule-grid">
-        <div
-          *ngFor="let item of scheduleItems"
-          class="schedule-item"
-          [class.active]="item.active"
-          [class.completed]="item.completed"
-          (click)="setActive(item)"
-        >
-          <div class="time-row">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-              <circle
-                cx="12"
-                cy="12"
-                r="9"
-                [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
-                stroke-width="2"
-              />
-              <path
-                d="M12 7v5l3 3"
-                [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-            <span class="sched-time" [class.active-time]="item.active">{{ item.time }}</span>
-            <span class="chevron">›</span>
-          </div>
-          <span class="sched-room">{{ item.room }}</span>
-          <span class="sched-task">{{ item.task }}</span>
-          <p-tag
-            [value]="item.priority | uppercase"
-            [severity]="getPriorityTag(item.priority)"
-            styleClass="priority-tag"
+        @for (item of scheduleItems; track $index) {
+          <div
+            class="schedule-item"
+            [class.active]="item.active"
+            [class.completed]="item.completed"
+            (click)="setActive(item)"
           >
-          </p-tag>
-        </div>
+            <div class="time-row">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9"
+                  [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
+                  stroke-width="2"
+                />
+                <path
+                  d="M12 7v5l3 3"
+                  [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span class="sched-time" [class.active-time]="item.active">{{ item.time }}</span>
+              <span class="chevron">›</span>
+            </div>
+            <span class="sched-room">{{ item.room }}</span>
+            <span class="sched-task">{{ item.task }}</span>
+            <p-tag [value]="item.priority | uppercase" [severity]="getPriorityTag(item.priority)">
+            </p-tag>
+          </div>
+        }
       </div>
     </p-card>
 
     <!-- LEARNING MODULES GRID -->
     <div class="learning-grid">
       <!-- MANDATORY LEARNING -->
-      <p-card class="learning-card" *ngIf="mandatoryModules.length > 0">
-        <ng-template pTemplate="header">
-          <div class="card-header">
-            <div class="mod-label blue">
+      @if (mandatoryModules.length > 0) {
+        <p-card class="learning-card">
+          <ng-template pTemplate="header">
+            <div class="card-header p-3">
+              <div class="mod-label blue d-flex align-items-center gap-2">
+                <i class="pi pi-graduation-cap"></i>
+                <span>Mandatory learning</span>
+              </div>
+              <p-tag value="Required" severity="info" [rounded]="true"></p-tag>
+            </div>
+          </ng-template>
+
+          <div class="mod-body d-flex flex-row gap-4" *ngIf="mandatoryModules[0] as module">
+            <div class="video-container" (click)="playVideo(module)">
+              <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
+              <div class="play-overlay">
+                <div class="play-circle">
+                  <i class="pi pi-play-fill"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="mod-info d-flex flex-column flex-grow-1">
+              <h3 class="mod-title mb-1">{{ module.title }}</h3>
+
+              <div class="duration mb-2">
+                <i class="pi pi-clock text-muted"></i>
+                <span class="ms-1">{{ module.duration }} min</span>
+              </div>
+
+              <p-progressBar
+                [value]="module.progress"
+                [showValue]="false"
+                class="mb-1"
+              ></p-progressBar>
+              <div class="progress-details d-flex justify-content-between mb-3">
+                <span class="progress-lbl">{{ module.progress }}% complete</span>
+                <span class="note italic text-muted">Continue before end of shift</span>
+              </div>
+
+              @if (module.linkedTask) {
+                <div class="linked-chip p-2 mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="pi pi-link text-teal"></i>
+                    <span class="linked-text">Linked to {{ module.linkedTask }}</span>
+                  </div>
+                  <div class="linked-sub ms-4">For upcoming medication round</div>
+                </div>
+              }
+
+              <button
+                pButton
+                type="button"
+                label="Continue module"
+                (click)="playVideo(module)"
+                class="p-button-primary w-full mt-auto"
+              ></button>
+            </div>
+          </div>
+        </p-card>
+      }
+
+      <!-- ASSESSMENT -->
+      @if (assessmentModules.length > 0) {
+        <p-card class="learning-card flex-col">
+          <ng-template pTemplate="header">
+            <div class="mod-label purple">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <path
-                  d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"
+                  d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
                   stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
               </svg>
-              Mandatory learning
+              Assessment
             </div>
-            <p-tag value="Required" severity="info"></p-tag>
-          </div>
-        </ng-template>
+          </ng-template>
 
-        <div class="mod-body" *ngIf="mandatoryModules[0] as module">
-          <div
-            class="video-thumb"
-            (click)="playVideo(module)"
-            pTooltip="Click to play video"
-            tooltipPosition="top"
-          >
-            <img [src]="module.thumbnail" [alt]="module.title" />
-            <div class="play-overlay">▶️</div>
-          </div>
-          <div class="mod-info">
+          <div class="assessment-content" *ngIf="assessmentModules[0] as module">
             <span class="mod-title">{{ module.title }}</span>
             <span class="mod-description">{{ module.description }}</span>
             <div class="duration">
@@ -149,139 +197,102 @@
               </svg>
               {{ module.duration }} min
             </div>
-            <p-progressBar [value]="module.progress" [showValue]="true"></p-progressBar>
-            <span class="progress-lbl">{{ module.progress }}% complete</span>
-            <span class="note">Continue before end of shift</span>
-            <div class="linked-chip" *ngIf="module.linkedTask">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"
-                  stroke="#1a9e8f"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-              </svg>
-              Linked to {{ module.linkedTask }}
-              <div class="linked-sub">For upcoming medication round</div>
-            </div>
+            <p-tag value="Pending" severity="warn"></p-tag>
+            <span class="note">Complete after module</span>
             <button
               pButton
               type="button"
-              label="Continue module"
-              icon="pi pi-play"
-              (click)="playVideo(module)"
-              class="p-button-sm p-button-primary"
+              label="Open test"
+              icon="pi pi-file"
+              class="p-button-sm p-button-outlined"
+              style="margin-top: auto"
             ></button>
           </div>
-        </div>
-      </p-card>
-
-      <!-- ASSESSMENT -->
-      <p-card class="learning-card flex-col" *ngIf="assessmentModules.length > 0">
-        <ng-template pTemplate="header">
-          <div class="mod-label purple">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            Assessment
-          </div>
-        </ng-template>
-
-        <div class="assessment-content" *ngIf="assessmentModules[0] as module">
-          <span class="mod-title">{{ module.title }}</span>
-          <span class="mod-description">{{ module.description }}</span>
-          <div class="duration">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
-              <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
-            </svg>
-            {{ module.duration }} min
-          </div>
-          <p-tag value="Pending" severity="warn"></p-tag>
-          <span class="note">Complete after module</span>
-          <button
-            pButton
-            type="button"
-            label="Open test"
-            icon="pi pi-file"
-            class="p-button-sm p-button-outlined"
-            style="margin-top: auto"
-          ></button>
-        </div>
-      </p-card>
+        </p-card>
+      }
 
       <!-- OPTIONAL 1 -->
-      <p-card class="learning-card flex-col" *ngIf="optionalModules.length > 0">
-        <ng-template pTemplate="header">
-          <p-tag value="Optional" severity="secondary"></p-tag>
-        </ng-template>
+      @if (optionalModules.length > 0) {
+        <p-card class="learning-card flex-col">
+          <ng-template pTemplate="header">
+            <p-tag value="Optional" severity="secondary"></p-tag>
+          </ng-template>
 
-        <div class="optional-content" *ngIf="optionalModules[0] as module">
-          <div class="thumb wound-thumb" (click)="playVideo(module)">
-            <img [src]="module.thumbnail" [alt]="module.title" />
-            <div class="play-btn">▶️</div>
+          <div class="optional-content" *ngIf="optionalModules[0] as module">
+            <div class="thumb-container" (click)="playVideo(module)">
+              <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
+              <div class="play-overlay">
+                <i class="pi pi-play-fill"></i>
+              </div>
+            </div>
+
+            <div class="module-details">
+              <span class="mod-title">{{ module.title }}</span>
+              <span class="mod-description">{{ module.description }}</span>
+
+              <div class="duration">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
+                  <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                {{ module.duration }} min
+              </div>
+
+              <button
+                pButton
+                type="button"
+                label="Start module"
+                (click)="playVideo(module)"
+                class="p-button-sm p-button-outlined start-btn"
+              ></button>
+            </div>
           </div>
-          <span class="mod-title">{{ module.title }}</span>
-          <span class="mod-description">{{ module.description }}</span>
-          <div class="duration">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
-              <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
-            </svg>
-            {{ module.duration }} min
-          </div>
-          <button
-            pButton
-            type="button"
-            label="Start module"
-            icon="pi pi-play"
-            (click)="playVideo(module)"
-            class="p-button-sm p-button-outlined"
-            style="margin-top: auto"
-          ></button>
-        </div>
-      </p-card>
+        </p-card>
+      }
 
       <!-- OPTIONAL 2 -->
-      <p-card class="learning-card flex-col" *ngIf="optionalModules.length > 1">
-        <ng-template pTemplate="header">
-          <p-tag value="Optional" severity="secondary"></p-tag>
-        </ng-template>
+      @if (optionalModules.length > 1) {
+        <p-card class="learning-card flex-col">
+          <ng-template pTemplate="header">
+            <p-tag value="Optional" severity="secondary"></p-tag>
+          </ng-template>
 
-        <div class="optional-content" *ngIf="optionalModules[1] as module">
-          <div class="thumb disc-thumb" (click)="playVideo(module)">
-            <img [src]="module.thumbnail" [alt]="module.title" />
-            <div class="play-btn">▶️</div>
+          <div class="optional-content" *ngIf="optionalModules[1] as module">
+            <div class="thumb-container" (click)="playVideo(module)">
+              <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
+              <div class="play-overlay">
+                <i class="pi pi-play-fill"></i>
+              </div>
+            </div>
+
+            <div class="module-details">
+              <span class="mod-title">{{ module.title }}</span>
+              <span class="mod-description">{{ module.description }}</span>
+
+              <div class="duration">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
+                  <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                {{ module.duration }} min
+              </div>
+
+              <button
+                pButton
+                type="button"
+                label="Start module"
+                (click)="playVideo(module)"
+                class="p-button-sm p-button-outlined start-btn"
+              ></button>
+            </div>
           </div>
-          <span class="mod-title">{{ module.title }}</span>
-          <span class="mod-description">{{ module.description }}</span>
-          <div class="duration">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
-              <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
-            </svg>
-            {{ module.duration }} min
-          </div>
-          <button
-            pButton
-            type="button"
-            label="Start module"
-            icon="pi pi-play"
-            (click)="playVideo(module)"
-            class="p-button-sm p-button-outlined"
-            style="margin-top: auto"
-          ></button>
-        </div>
-      </p-card>
+        </p-card>
+      }
     </div>
 
-    <!-- BOTTOM ROW: QUICK ACTIONS, PROGRESS CHART -->
+    <!-- Replace the entire <main class="dashboard"> bottom section with: -->
+
+    <!-- BOTTOM ROW: QUICK ACTIONS, PROGRESS CHART, ASK CLAUDE -->
     <div class="bottom-row">
       <!-- Quick Actions -->
       <p-card class="quick-actions-card">
@@ -289,18 +300,23 @@
           <h3 class="section-title">Quick actions</h3>
         </ng-template>
         <div class="qa-grid">
-          <button
-            *ngFor="let action of quickActions"
-            pButton
-            type="button"
-            [label]="action.label"
-            icon="pi pi-arrow-right"
-            (click)="action.action()"
-            class="p-button-rounded p-button-text qa-btn"
-            [style.backgroundColor]="action.bg"
-          >
-            <p-badge *ngIf="action.badge" [value]="action.badge" severity="danger"></p-badge>
-          </button>
+          @for (action of quickActions; track $index) {
+            <div class="qa-item">
+              <button
+                pButton
+                type="button"
+                (click)="action.action()"
+                class="qa-round-btn"
+                [style.backgroundColor]="action.bg"
+              >
+                <i [class]="action.icon" [style.color]="action.color"></i>
+                @if (action.badge) {
+                  <p-badge [value]="action.badge" severity="danger"></p-badge>
+                }
+              </button>
+              <span class="qa-label">{{ action.label }}</span>
+            </div>
+          }
         </div>
       </p-card>
 
@@ -309,7 +325,6 @@
         <ng-template pTemplate="header">
           <h3 class="section-title">Your progress</h3>
         </ng-template>
-
         <div class="progress-body">
           <div class="donut-wrap">
             <svg width="110" height="110" viewBox="0 0 110 110">
@@ -330,7 +345,7 @@
               <defs>
                 <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stop-color="#1a9e8f" />
-                  <stop offset="100%" stop-color="#2b4ec7" />
+                  <stop offset="100%" stop-color="#1a9e8f" />
                 </linearGradient>
               </defs>
             </svg>
@@ -372,20 +387,21 @@
   <!-- VIDEO DIALOG -->
   <!-- ═══════════════════════════════════════════════════════ -->
   <p-dialog
-    [(visible)]="videoDialogVisible"
-    [header]="selectedModule?.title || 'Learning Module'"
+    [(visible)]="displayVideoPlayer"
     [modal]="true"
-    [style]="{ width: '90vw', maxWidth: '900px' }"
+    [header]="selectedModule?.title"
+    [style]="{ width: '800px' }"
+    [breakpoints]="{ '960px': '95vw' }"
     [draggable]="false"
     [resizable]="false"
-    [closable]="true"
-    (onHide)="onVideoDialogHide()"
+    (onHide)="closeVideo()"
   >
-    <div class="video-dialog-content">
-      <div class="video-container">
+    <div class="video-dialog-content" *ngIf="videoUrl">
+      <div class="video-container" style="height: 450px; width: 100%">
         <iframe
-          *ngIf="videoUrl"
           [src]="videoUrl"
+          width="100%"
+          height="100%"
           frameborder="0"
           allow="
             accelerometer;
@@ -396,17 +412,21 @@
             picture-in-picture;
           "
           allowfullscreen
-          style="width: 100%; height: 100%; border-radius: 8px"
         >
         </iframe>
       </div>
 
-      <div class="video-info" *ngIf="selectedModule">
-        <p>{{ selectedModule.description }}</p>
-        <div class="video-stats">
-          <span> <strong>Duration:</strong> {{ selectedModule.duration }} minutes </span>
-          <span> <strong>Type:</strong> {{ selectedModule.type | titlecase }} </span>
-          <span> <strong>Progress:</strong> {{ selectedModule.progress }}% </span>
+      <div class="video-info mt-3">
+        <p class="mod-description">{{ selectedModule?.description }}</p>
+        <div class="video-stats mt-2">
+          <span
+            ><i class="pi pi-clock"></i> <strong>Duration:</strong>
+            {{ selectedModule?.duration }} min</span
+          >
+          <span class="ms-4"
+            ><i class="pi pi-chart-line"></i> <strong>Your Progress:</strong>
+            {{ selectedModule?.progress }}%</span
+          >
         </div>
       </div>
     </div>
@@ -414,135 +434,11 @@
     <ng-template pTemplate="footer">
       <button
         pButton
-        type="button"
-        label="Mark as Complete"
         icon="pi pi-check"
-        (click)="completeModule(selectedModule)"
-        class="p-button-success"
-        [disabled]="selectedModule?.completed"
-      ></button>
-      <button
-        pButton
-        type="button"
+        (click)="closeVideo()"
         label="Close"
-        icon="pi pi-times"
-        (click)="stopVideo()"
         class="p-button-text"
       ></button>
     </ng-template>
   </p-dialog>
-
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- CUSTOM ALERTS SIDEBAR -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="custom-sidebar" [class.open]="alertsSidebarVisible">
-    <div class="sidebar-overlay" (click)="closeSidebars()"></div>
-    <div class="sidebar-panel">
-      <div class="sidebar-header">
-        <h3 class="sidebar-title">Active Alerts ({{ getAlertBadgeCount() }})</h3>
-        <button
-          pButton
-          type="button"
-          icon="pi pi-times"
-          class="p-button-rounded p-button-text p-button-sm"
-          (click)="closeSidebars()"
-        ></button>
-      </div>
-
-      <div class="sidebar-content">
-        <div class="alerts-list" *ngIf="alerts.length > 0; else noAlerts">
-          <div *ngFor="let alert of alerts" class="alert-item" [ngClass]="'alert-' + alert.type">
-            <div class="alert-header">
-              <p-tag
-                [value]="alert.type | uppercase"
-                [severity]="getSeverityByType(alert.type)"
-              ></p-tag>
-              <button
-                pButton
-                type="button"
-                icon="pi pi-times"
-                class="p-button-rounded p-button-text p-button-sm"
-                (click)="resolveAlert(alert)"
-              ></button>
-            </div>
-            <strong class="alert-message">{{ alert.message }}</strong>
-            <div class="alert-details">
-              <small><strong>Room:</strong> {{ alert.room }}</small>
-              <small><strong>Patient:</strong> {{ alert.patient }}</small>
-              <small class="alert-time">{{ alert.time }}</small>
-            </div>
-          </div>
-        </div>
-        <ng-template #noAlerts>
-          <div class="empty-state">
-            <p>No active alerts</p>
-          </div>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- CUSTOM TASKS SIDEBAR -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="custom-sidebar tasks-sidebar" [class.open]="tasksSidebarVisible">
-    <div class="sidebar-overlay" (click)="closeSidebars()"></div>
-    <div class="sidebar-panel">
-      <div class="sidebar-header">
-        <h3 class="sidebar-title">My Tasks ({{ tasks.length }})</h3>
-        <button
-          pButton
-          type="button"
-          icon="pi pi-times"
-          class="p-button-rounded p-button-text p-button-sm"
-          (click)="closeSidebars()"
-        ></button>
-      </div>
-
-      <div class="sidebar-content">
-        <p-table
-          [value]="tasks"
-          [paginator]="true"
-          [rows]="5"
-          responsiveLayout="scroll"
-          styleClass="p-datatable-sm"
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 40%">Task</th>
-              <th style="width: 20%">Priority</th>
-              <th style="width: 40%">Status</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-task>
-            <tr [class.completed]="task.completed">
-              <td>
-                <div class="task-title" [class.completed]="task.completed">
-                  {{ task.title }}
-                </div>
-                <small class="task-room">{{ task.room }}</small>
-              </td>
-              <td>
-                <p-tag [value]="task.priority" [severity]="getPriorityTag(task.priority)"></p-tag>
-              </td>
-              <td>
-                <p-tag [value]="task.status" [severity]="getStatusSeverity(task.status)"></p-tag>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-
-        <div class="tasks-stats">
-          <div class="stat">
-            <strong>{{ getCompletedTasksCount() }}</strong>
-            <span>Completed</span>
-          </div>
-          <div class="stat">
-            <strong>{{ getPendingTasksCount() }}</strong>
-            <span>Pending</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
