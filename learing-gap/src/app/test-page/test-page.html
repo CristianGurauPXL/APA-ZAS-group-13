@@ -1,47 +1,47 @@
-@if (id == 'mod-002') {
+<div class="quiz-container">
   <div class="quiz-container">
-    <h2>Medication Round Assessment</h2>
-
-    <form (ngSubmit)="submitQuiz()">
-      @for (q of questions; track q.id) {
-        <div class="question" [ngClass]="getQuestionClass(q.id)">
-          <p>{{ $index + 1 }}. {{ q.text }}</p>
-
-          @for (opt of q.options; track opt.value) {
-            <label>
-              <input type="radio" [name]="q.id" [(ngModel)]="answers[q.id]" [value]="opt.value" />
-              {{ opt.value }}) {{ opt.label }}
-            </label>
-          }
-
-          @if (submitted && lastSubmittedAnswers[q.id] !== q.correctAnswer) {
-            <p class="error-text">❌ Incorrect.</p>
-          }
-        </div>
-      }
-
-      <button type="submit">Submit Quiz</button>
-    </form>
-    <div class="quiz-container">
-      @if (score !== null) {
-        <div class="results-banner">
-          <h3>Your Score: {{ score }}/5</h3>
-
-          @if (score === 5) {
-            <div class="success-message">
-              <p>🎉 Excellent! You have passed the assessment.</p>
-              <button type="button" class="back-btn" (click)="goToDashboard()">
-                Finish & Return to Dashboard
-              </button>
-            </div>
-          } @else {
-            <p class="retry-text">Please review your answers and try again to pass.</p>
-            <button type="button" class="retry-btn" (click)="submitted = false; score = null">
-              Retry Quiz
-            </button>
-          }
-        </div>
-      }
-    </div>
+    <h2>{{ currentTitle }}</h2>
+    <form (ngSubmit)="submitQuiz()"></form>
   </div>
-}
+  <form (ngSubmit)="submitQuiz()">
+    @for (q of questions; track q.id) {
+      <div class="question" [ngClass]="getQuestionClass(q.id)">
+        <p>{{ $index + 1 }}. {{ q.text }}</p>
+
+        @for (opt of q.options; track opt.value) {
+          <label>
+            <input type="radio" [name]="q.id" [(ngModel)]="answers[q.id]" [value]="opt.value" />
+            {{ opt.value }}) {{ opt.label }}
+          </label>
+        }
+
+        @if (submitted && lastSubmittedAnswers[q.id] !== q.correctAnswer) {
+          <p class="error-text">❌ Incorrect.</p>
+        }
+      </div>
+    }
+
+    <button type="submit">Submit Quiz</button>
+  </form>
+  <div class="quiz-container">
+    @if (score !== null) {
+      <div class="results-banner">
+        <h3>Your Score: {{ score }}/{{ totalQuestions }}</h3>
+
+        @if (score === totalQuestions) {
+          <div class="success-message">
+            <p>🎉 Excellent! You have passed the assessment.</p>
+            <button type="button" class="back-btn" (click)="goToDashboard()">
+              Finish & Return to Dashboard
+            </button>
+          </div>
+        } @else {
+          <p class="retry-text">Please review your answers and try again to pass.</p>
+          <button type="button" class="retry-btn" (click)="submitted = false; score = null">
+            Retry Quiz
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>

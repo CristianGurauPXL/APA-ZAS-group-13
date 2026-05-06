@@ -7,11 +7,13 @@
     <div class="header-inner">
       <div class="logo">
         <div class="logo-mark">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M12 4v16M4 12h16" stroke="white" stroke-width="3" stroke-linecap="round" />
-          </svg>
+          <img src="/zas.jpg" alt="ZAS Logo" class="logo-img" />
         </div>
-        <span class="logo-text">WardWise</span>
+        <span class="logo-text">ZAS</span>
+        <div class="made-by">
+          <span class="attribution-text">made by</span>
+          <span class="brand-text">MedLink</span>
+        </div>
       </div>
 
       <div class="nurse-profile">
@@ -201,7 +203,7 @@
                 {{ module.duration }} min
               </div>
               <p-tag value="Pending" severity="warn"></p-tag>
-              <span class="note">Complete after module</span>
+              <span class="note">Complete after mandatory module</span>
               <button
                 pButton
                 type="button"
@@ -250,6 +252,15 @@
                 (click)="playVideo(module)"
                 class="p-button-sm p-button-outlined start-btn"
               ></button>
+              <button
+                pButton
+                type="button"
+                label="Open test"
+                icon="pi pi-file"
+                class="p-button-sm p-button-outlined"
+                style="margin-top: auto"
+                (click)="goToTest(module)"
+              ></button>
             </div>
           </div>
         </p-card>
@@ -288,6 +299,15 @@
                 label="Start module"
                 (click)="playVideo(module)"
                 class="p-button-sm p-button-outlined start-btn"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Open test"
+                icon="pi pi-file"
+                class="p-button-sm p-button-outlined"
+                style="margin-top: auto"
+                (click)="goToTest(module)"
               ></button>
             </div>
           </div>

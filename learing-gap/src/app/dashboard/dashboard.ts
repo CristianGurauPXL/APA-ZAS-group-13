@@ -15,6 +15,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/api';
+import { CarouselModule } from 'primeng/carousel';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -35,6 +36,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     ProgressBarModule,
     TooltipModule,
     TableModule,
+    CarouselModule
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
@@ -113,7 +115,7 @@ export class Dashboard implements OnInit {
 
   assessmentModules = [
     {
-      id: 'mod-002',
+      id: 'mod-001',
       title: 'Doctor-executed test',
       description: 'Medication round check assessment - verify your understanding',
       duration: 3,
@@ -125,11 +127,31 @@ export class Dashboard implements OnInit {
         requirement: 'all',
       },
     },
+    {
+      id: 'mod-002',
+      title: 'Wound Care Assessment',
+      description: 'Verify your knowledge on advanced dressing techniques.',
+      duration: 5,
+      progress: 0,
+      type: 'assessment',
+      completed: false,
+      linkedTo: { moduleIds: ['mod-002'], requirement: 'all' },
+    },
+    {
+      id: 'mod-003',
+      title: 'Discharge Protocol Test',
+      description: 'Ensure patient safety during the discharge transition.',
+      duration: 4,
+      progress: 0,
+      type: 'assessment',
+      completed: false,
+      linkedTo: { moduleIds: ['mod-003'], requirement: 'all' },
+    },
   ];
 
   optionalModules = [
     {
-      id: 'mod-003',
+      id: 'mod-002',
       title: 'Wound dressing refresh',
       description: 'Advanced techniques for professional wound care management',
       duration: 4,
@@ -140,7 +162,7 @@ export class Dashboard implements OnInit {
       completed: false,
     },
     {
-      id: 'mod-004',
+      id: 'mod-003',
       title: 'Discharge checklist',
       description: 'Complete discharge procedures and patient follow-up protocols',
       duration: 5,
@@ -410,18 +432,18 @@ export class Dashboard implements OnInit {
   // ─────────────────────────────────────
 
   getProgressPercentage(): number {
-    const allModules = [...this.assessmentModules];
+    const allModules = [...this.mandatoryModules];
     const completed = allModules.filter((m) => m.completed).length;
     return allModules.length > 0 ? Math.round((completed / allModules.length) * 100) : 0;
   }
 
   getCompletedCount(): number {
-    const allModules = [...this.assessmentModules];
+    const allModules = [...this.mandatoryModules];
     return allModules.filter((m) => m.completed).length;
   }
 
   getTotalCount(): number {
-    return [...this.assessmentModules].length;
+    return [...this.mandatoryModules].length;
   }
 
   // ─────────────────────────────────────

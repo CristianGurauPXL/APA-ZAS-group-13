@@ -85,7 +85,7 @@
 .logo-text {
   font-weight: 700;
   font-size: 1.5rem;
-  color: var(--primary-blue);
+  color: var(--primary-teal);
   letter-spacing: -0.5px;
 }
 
@@ -950,6 +950,64 @@
   box-shadow: var(--shadow-md) !important;
 }
 
+::ng-deep .p-progressbar {
+  height: 8px !important;
+  min-height: 8px;
+  width: 100%;
+}
+
+:host ::ng-deep .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+:host ::ng-deep .p-dialog {
+  background-color: #ffffff;
+}
+
+.logo-mark {
+  /* Ensure the container is flex to center the image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Clips the image if it's too big */
+  background-color: #1a9e8f; /* Keep your teal background or change to transparent */
+  border-radius: 8px; /* Matches the 'logo-mark' look */
+  width: 32px; /* Adjust based on your header size */
+  height: 32px;
+}
+
+.logo-img {
+  width: 200%;
+  height: 200%;
+  object-fit: cover; /* This makes the image fill the square nicely */
+  display: block;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between the image and the text 'ZAS' */
+}
+
+.made-by {
+  display: flex;
+  flex-direction: column; /* Stacks the spans vertically */
+  line-height: 1.2; /* Tightens the vertical space between lines */
+  margin-left: 4px; /* Small gap from the ZAS text */
+}
+
+.attribution-text {
+  font-size: 10px; /* Smaller size */
+  color: #94a3b8; /* Grey-ish color (Slate 400) */
+  text-transform: lowercase;
+}
+
+.brand-text {
+  font-size: 12px; /* Slightly bigger than 'made by' but smaller than ZAS */
+  font-weight: 600;
+  color: #64748b; /* Slightly darker grey for the brand name */
+}
+
 /* --- RESPONSIVE DESIGN --- */
 @media (max-width: 1400px) {
   .schedule-grid {
@@ -1128,18 +1186,4 @@
 
 .h-auto {
   height: auto;
-}
-
-::ng-deep .p-progressbar {
-  height: 8px !important;
-  min-height: 8px;
-  width: 100%;
-}
-
-:host ::ng-deep .p-dialog-mask {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-:host ::ng-deep .p-dialog {
-  background-color: #ffffff;
 }
