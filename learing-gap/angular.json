@@ -22,7 +22,12 @@
                 "input": "public"
               }
             ],
-            "styles": ["node_modules/primeicons/primeicons.css", "src/styles.css"]
+            "styles": [
+              "https://unpkg.com/primeng@latest/resources/themes/lara-light-blue/theme.css",
+              "https://unpkg.com/primeng@latest/resources/primeng.min.css",
+              "https://unpkg.com/primeicons@latest/primeicons.css",
+              "src/styles.css"
+            ]
           },
           "configurations": {
             "production": {

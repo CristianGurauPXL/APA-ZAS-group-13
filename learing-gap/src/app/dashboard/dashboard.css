@@ -1135,3 +1135,11 @@
   min-height: 8px;
   width: 100%;
 }
+
+:host ::ng-deep .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+:host ::ng-deep .p-dialog {
+  background-color: #ffffff;
+}
