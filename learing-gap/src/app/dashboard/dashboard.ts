@@ -1,69 +1,549 @@
-import { Component, Injectable } from '@angular/core';
-import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-@Injectable({
-  providedIn: 'root',
-})
+// PrimeNG Modules (Only essentials)
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { BadgeModule } from 'primeng/badge';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { ChartModule } from 'primeng/chart';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { TableModule } from 'primeng/table';
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, DialogModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DialogModule,
+    ButtonModule,
+    CardModule,
+    BadgeModule,
+    TagModule,
+    ToastModule,
+    ChartModule,
+    ProgressBarModule,
+    TooltipModule,
+    TableModule,
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
+  providers: [MessageService],
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
+  // ─────────────────────────────────────
+  // HARDCODED SCHEDULE DATA
+  // ─────────────────────────────────────
   scheduleItems = [
-    { time: '08:30', room: 'Room 204B', task: 'Medication round', active: true },
-    { time: '09:30', room: 'Room 208A', task: 'Wound care', active: false },
-    { time: '10:15', room: 'Room 210', task: 'Discharge preparation', active: false },
-    { time: '11:00', room: 'Room 212', task: 'Vitals check', active: false },
+    {
+      id: 1,
+      time: '08:30',
+      room: 'Room 204B',
+      task: 'Medication round',
+      active: true,
+      priority: 'high',
+      completed: false,
+    },
+    {
+      id: 2,
+      time: '09:30',
+      room: 'Room 208A',
+      task: 'Wound care',
+      active: false,
+      priority: 'medium',
+      completed: false,
+    },
+    {
+      id: 3,
+      time: '10:15',
+      room: 'Room 210',
+      task: 'Discharge preparation',
+      active: false,
+      priority: 'low',
+      completed: false,
+    },
+    {
+      id: 4,
+      time: '11:00',
+      room: 'Room 212',
+      task: 'Vitals check',
+      active: false,
+      priority: 'high',
+      completed: false,
+    },
+    {
+      id: 5,
+      time: '14:00',
+      room: 'Room 205',
+      task: 'Patient interview',
+      active: false,
+      priority: 'medium',
+      completed: false,
+    },
   ];
 
+  // ─────────────────────────────────────
+  // HARDCODED LEARNING MODULES
+  // ─────────────────────────────────────
+  mandatoryModules = [
+    {
+      id: 'mod-001',
+      title: 'Safe medication handover',
+      description:
+        'Learn best practices for medication handover procedures to ensure patient safety',
+      duration: 6,
+      progress: 58,
+      type: 'mandatory',
+      videoId: 'P5ZJui3aPoQ',
+      thumbnail: 'https://img.youtube.com/vi/P5ZJui3aPoQ/hqdefault.jpg',
+      completed: false,
+      linkedTask: '08:30 medication round',
+    },
+  ];
+
+  assessmentModules = [
+    {
+      id: 'mod-002',
+      title: 'Doctor-executed test',
+      description: 'Medication round check assessment - verify your understanding',
+      duration: 3,
+      progress: 0,
+      type: 'assessment',
+      completed: false,
+    },
+  ];
+
+  optionalModules = [
+    {
+      id: 'mod-003',
+      title: 'Wound dressing refresh',
+      description: 'Advanced techniques for professional wound care management',
+      duration: 4,
+      progress: 0,
+      type: 'optional',
+      videoId: 'dQw4w9WgXcQ',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      completed: false,
+    },
+    {
+      id: 'mod-004',
+      title: 'Discharge checklist',
+      description: 'Complete discharge procedures and patient follow-up protocols',
+      duration: 5,
+      progress: 0,
+      type: 'optional',
+      videoId: 'ScMzIvxBSi4',
+      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      completed: false,
+    },
+  ];
+
+  // ─────────────────────────────────────
+  // HARDCODED TASKS DATA
+  // ─────────────────────────────────────
+  tasks = [
+    {
+      id: 1,
+      title: 'Medication round',
+      room: 'Room 204B',
+      priority: 'High',
+      status: 'In Progress',
+      completed: false,
+    },
+    {
+      id: 2,
+      title: 'Wound care',
+      room: 'Room 208A',
+      priority: 'Medium',
+      status: 'Pending',
+      completed: false,
+    },
+    {
+      id: 3,
+      title: 'Discharge prep',
+      room: 'Room 210',
+      priority: 'Low',
+      status: 'Pending',
+      completed: false,
+    },
+    {
+      id: 4,
+      title: 'Vitals check',
+      room: 'Room 212',
+      priority: 'High',
+      status: 'Pending',
+      completed: false,
+    },
+    {
+      id: 5,
+      title: 'Patient assessment',
+      room: 'Room 205',
+      priority: 'Medium',
+      status: 'Completed',
+      completed: true,
+    },
+    {
+      id: 6,
+      title: 'Blood pressure monitoring',
+      room: 'Room 215',
+      priority: 'High',
+      status: 'In Progress',
+      completed: false,
+    },
+  ];
+
+  // ─────────────────────────────────────
+  // HARDCODED ALERTS
+  // ─────────────────────────────────────
+  alerts = [
+    {
+      id: 1,
+      type: 'critical' as const,
+      message: 'Room 204B - Patient vitals abnormal',
+      room: 'Room 204B',
+      time: '2 min ago',
+      patient: 'John Doe',
+    },
+    {
+      id: 2,
+      type: 'warn' as const,
+      message: 'Room 208A - Medication due in 30 minutes',
+      room: 'Room 208A',
+      time: '5 min ago',
+      patient: 'Jane Smith',
+    },
+    {
+      id: 3,
+      type: 'info' as const,
+      message: 'Room 210 - Discharge papers ready for review',
+      room: 'Room 210',
+      time: '10 min ago',
+      patient: 'Robert Johnson',
+    },
+    {
+      id: 4,
+      type: 'warn' as const,
+      message: 'Room 212 - IV fluid low',
+      room: 'Room 212',
+      time: '15 min ago',
+      patient: 'Mary Williams',
+    },
+  ];
+
+  // ─────────────────────────────────────
+  // HARDCODED QUICK ACTIONS
+  // ─────────────────────────────────────
   quickActions = [
     {
       label: 'Blood transfusion',
       bg: '#e8f5f3',
-      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#1a9e8f" stroke-width="2" stroke-linejoin="round"/></svg>`,
+      action: () =>
+        this.showToast('info', 'Blood Transfusion', 'Initiating blood transfusion protocol...'),
     },
     {
-      label: 'Last',
+      label: 'Last alerts',
       bg: '#fff3e0',
-      badge: 3,
-      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/></svg>`,
+      badge: 4,
+      action: () => this.toggleAlertsSidebar(),
     },
     {
       label: 'Completed 5 tasks',
       bg: '#e8effe',
-      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 004 22h16v-5H6.5M4 19.5V4a2 2 0 012-2h12v13" stroke="#2b4ec7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      action: () =>
+        this.showToast('success', 'Tasks Completed', 'You have completed 5 tasks today!'),
     },
     {
-      label: 'First',
+      label: 'Task checklist',
       bg: '#f0effe',
-      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      action: () => this.showTasksTable(),
     },
   ];
 
-  setActive(selected: any) {
+  // ─────────────────────────────────────
+  // NURSE PROFILE DATA
+  // ─────────────────────────────────────
+  nurseProfile = {
+    name: 'Tom Jacobs',
+    rn: 'RN',
+    ward: 'Ward 3B',
+    shift: 'Day shift 07:00–15:00',
+    status: 'available',
+  };
+
+  // ─────────────────────────────────────
+  // UI STATE VARIABLES
+  // ─────────────────────────────────────
+  videoDialogVisible = false;
+  selectedModule: any = null;
+  videoUrl: SafeResourceUrl = '';
+  alertsSidebarVisible = false;
+  tasksSidebarVisible = false;
+
+  // Chart Data
+  chartData: any;
+  chartOptions: any;
+
+  constructor(
+    private sanitizer: DomSanitizer,
+    private messageService: MessageService,
+  ) {
+    this.initializeCharts();
+  }
+
+  ngOnInit(): void {
+    this.initializeCharts();
+  }
+
+  // ─────────────────────────────────────
+  // SCHEDULE METHODS
+  // ─────────────────────────────────────
+
+  setActive(selected: any): void {
     this.scheduleItems.forEach((item) => (item.active = item === selected));
   }
 
-  display = false;
-  videoUrl!: SafeResourceUrl;
-
-  constructor(private sanitizer: DomSanitizer) {}
-
-  showVideo() {
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://www.youtube.com/watch?v=5tXh_MfrMe0&list=RDP5ZJui3aPoQ&index=7',
-    );
-    this.display = true;
+  completeScheduleItem(item: any): void {
+    item.completed = !item.completed;
+    const action = item.completed ? 'marked as complete' : 'marked as incomplete';
+    this.showToast('success', 'Task Updated', `${item.task} ${action}`);
   }
 
-  stopVideo() {
+  // ─────────────────────────────────────
+  // VIDEO METHODS
+  // ─────────────────────────────────────
+
+  playVideo(module: any): void {
+    if (!module.videoId) {
+      this.showToast('warn', 'No Video', 'This module does not have a video available');
+      return;
+    }
+
+    this.selectedModule = module;
+    const youtubeEmbedUrl = `https://www.youtube.com/embed/${module.videoId}?autoplay=1`;
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(youtubeEmbedUrl);
+    this.videoDialogVisible = true;
+  }
+
+  stopVideo(): void {
     this.videoUrl = '';
-    this.videoUrl = '' as any; // clears iframe → stops video
+    this.videoDialogVisible = false;
+    this.selectedModule = null;
+  }
+
+  onVideoDialogHide(): void {
+    this.stopVideo();
+  }
+
+  completeModule(module: any): void {
+    if (!module) return;
+    module.completed = true;
+    module.progress = 100;
+    this.showToast('success', 'Module Completed', `${module.title} has been marked as complete!`);
+  }
+
+  // ─────────────────────────────────────
+  // PROGRESS METHODS
+  // ─────────────────────────────────────
+
+  getProgressPercentage(): number {
+    const allModules = [
+      ...this.mandatoryModules,
+      ...this.assessmentModules,
+      ...this.optionalModules,
+    ];
+    const completed = allModules.filter((m) => m.completed).length;
+    return allModules.length > 0 ? Math.round((completed / allModules.length) * 100) : 0;
+  }
+
+  getCompletedCount(): number {
+    const allModules = [
+      ...this.mandatoryModules,
+      ...this.assessmentModules,
+      ...this.optionalModules,
+    ];
+    return allModules.filter((m) => m.completed).length;
+  }
+
+  getTotalCount(): number {
+    return [...this.mandatoryModules, ...this.assessmentModules, ...this.optionalModules].length;
+  }
+
+  // ─────────────────────────────────────
+  // UI INTERACTION METHODS
+  // ─────────────────────────────────────
+
+  toggleAlertsSidebar(): void {
+    this.alertsSidebarVisible = !this.alertsSidebarVisible;
+  }
+
+  showTasksTable(): void {
+    this.tasksSidebarVisible = true;
+  }
+
+  resolveAlert(alert: any): void {
+    this.alerts = this.alerts.filter((a) => a.id !== alert.id);
+    this.showToast('success', 'Alert Resolved', 'Alert has been marked as resolved');
+  }
+
+  toggleTaskComplete(task: any): void {
+    task.completed = !task.completed;
+    task.status = task.completed ? 'Completed' : 'Pending';
+    this.showToast('success', 'Task Updated', `${task.title} status updated`);
+  }
+
+  closeSidebars(): void {
+    this.alertsSidebarVisible = false;
+    this.tasksSidebarVisible = false;
+  }
+
+  // ─────────────────────────────────────
+  // TOAST NOTIFICATION METHOD
+  // ─────────────────────────────────────
+
+  showToast(
+    severity: 'success' | 'info' | 'warn' | 'error',
+    summary: string,
+    detail: string,
+  ): void {
+    this.messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail,
+      life: 3000,
+    });
+  }
+
+  // ─────────────────────────────────────
+  // CHART INITIALIZATION
+  // ─────────────────────────────────────
+
+  initializeCharts(): void {
+    this.chartData = {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [
+        {
+          label: 'Tasks Completed',
+          backgroundColor: 'rgba(26, 158, 143, 0.2)',
+          borderColor: '#1a9e8f',
+          borderWidth: 2,
+          data: [8, 7, 9, 12, 10, 6, 5],
+          fill: true,
+          tension: 0.4,
+        },
+        {
+          label: 'Modules Completed',
+          backgroundColor: 'rgba(43, 78, 199, 0.2)',
+          borderColor: '#2b4ec7',
+          borderWidth: 2,
+          data: [2, 3, 2, 4, 3, 1, 2],
+          fill: true,
+          tension: 0.4,
+        },
+      ],
+    };
+
+    this.chartOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            usePointStyle: true,
+            font: {
+              family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto',
+            },
+          },
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 15,
+          ticks: {
+            stepSize: 5,
+          },
+        },
+      },
+    };
+  }
+
+  // ─────────────────────────────────────
+  // UTILITY METHODS
+  // ─────────────────────────────────────
+
+  getPriorityColor(priority: string): string {
+    switch (priority) {
+      case 'high':
+      case 'High':
+        return '#ef4444';
+      case 'medium':
+      case 'Medium':
+        return '#f59e0b';
+      case 'low':
+      case 'Low':
+        return '#10b981';
+      default:
+        return '#8a96ae';
+    }
+  }
+
+  getSeverityByType(type: 'critical' | 'warn' | 'info'): 'danger' | 'warn' | 'info' {
+    switch (type) {
+      case 'critical':
+        return 'danger';
+      case 'warn':
+        return 'warn';
+      case 'info':
+        return 'info';
+      default:
+        return 'info';
+    }
+  }
+
+  getStatusSeverity(status: string): 'success' | 'info' | 'warn' {
+    switch (status) {
+      case 'Completed':
+        return 'success';
+      case 'In Progress':
+        return 'info';
+      case 'Pending':
+        return 'warn';
+      default:
+        return 'info';
+    }
+  }
+
+  getPriorityTag(priority: string): 'danger' | 'warn' | 'success' {
+    switch (priority) {
+      case 'High':
+        return 'danger';
+      case 'Medium':
+        return 'warn';
+      case 'Low':
+        return 'success';
+      default:
+        return 'info' as any;
+    }
+  }
+
+  getAlertBadgeCount(): number {
+    return this.alerts.length;
+  }
+
+  getCompletedTasksCount(): number {
+    return this.tasks.filter((t) => t.completed).length;
+  }
+
+  getPendingTasksCount(): number {
+    return this.tasks.filter((t) => !t.completed && t.status === 'Pending').length;
   }
 }
