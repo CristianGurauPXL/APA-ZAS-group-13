@@ -1,1 +1,309 @@
-<img src="">
+<div class="app-shell">
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 4v16M4 12h16" stroke="white" stroke-width="3" stroke-linecap="round" />
+          </svg>
+        </div>
+        <span class="logo-text">WardWise</span>
+      </div>
+
+      <div class="nurse-profile">
+        <div class="avatar">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <circle cx="26" cy="26" r="26" fill="#dce8f8" />
+            <circle cx="26" cy="20" r="9" fill="#8ab0d8" />
+            <path d="M8 50c0-9.94 8.06-18 18-18s18 8.06 18 18" fill="#8ab0d8" />
+          </svg>
+          <div class="status-dot"></div>
+        </div>
+        <div class="nurse-info">
+          <span class="greeting">Good morning, Tom</span>
+          <span class="nurse-name">Tom Jacobs, <strong>RN</strong></span>
+          <span class="ward-info">Ward 3B &nbsp;·&nbsp; Day shift 07:00–15:00</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Notifications">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span class="notif-badge">2</span>
+        </button>
+        <button class="icon-btn" aria-label="Security">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MAIN ── -->
+  <main class="dashboard">
+    <!-- SCHEDULE -->
+    <section class="card">
+      <div class="card-header">
+        <h2 class="section-title">Upcoming ward schedule</h2>
+        <a href="#" class="view-link">View full schedule ›</a>
+      </div>
+      <div class="schedule-grid">
+        @for (item of scheduleItems; track $index) {
+          <div class="schedule-item" [class.active]="item.active" (click)="setActive(item)">
+            <div class="time-row">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9"
+                  [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
+                  stroke-width="2"
+                />
+                <path
+                  d="M12 7v5l3 3"
+                  [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span class="sched-time" [class.active-time]="item.active">{{ item.time }}</span>
+              <span class="chevron">›</span>
+            </div>
+            <span class="sched-room">{{ item.room }}</span>
+            <span class="sched-task">{{ item.task }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- LEARNING MODULES -->
+    <section class="learning-grid">
+      <!-- Mandatory -->
+      <div class="card">
+        <div class="card-header">
+          <div class="mod-label blue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Mandatory learning
+          </div>
+          <span class="pill required">Required</span>
+        </div>
+        <div class="mod-body">
+          <div class="thumb nurse-thumb">
+            <div class="play-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M5 3l14 9-14 9V3z" fill="#2b4ec7" />
+              </svg>
+            </div>
+          </div>
+          <div class="mod-info">
+            <span class="mod-title">Safe medication handover</span>
+            <div class="duration">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
+                <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              6 min
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 58%"></div></div>
+            <span class="progress-lbl">58% complete</span>
+            <span class="note">Continue before end of shift</span>
+            <div class="linked-chip">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"
+                  stroke="#1a9e8f"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              Linked to 08:30 task
+              <div class="linked-sub">For upcoming medication round</div>
+            </div>
+            <button class="btn-primary">Continue module</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assessment -->
+      <div class="card flex-col">
+        <div class="mod-label purple">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Assessment
+        </div>
+        <span class="mod-title">Doctor-executed test</span>
+        <span class="mod-sub">Medication round check</span>
+        <div class="duration">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
+            <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          3 min
+        </div>
+        <div class="pending-chip">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#e6a020" stroke-width="2" />
+            <path d="M12 7v5l3 3" stroke="#e6a020" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          Pending
+        </div>
+        <span class="note">Complete after module</span>
+        <button class="btn-outline" style="margin-top: auto">Open test</button>
+      </div>
+
+      <!-- Optional 1 -->
+      <div class="card flex-col">
+        <span class="pill optional">Optional learning</span>
+        <div class="thumb wound-thumb">
+          <div class="play-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M5 3l14 9-14 9V3z" fill="white" />
+            </svg>
+          </div>
+        </div>
+        <span class="mod-title">Wound dressing refresh</span>
+        <div class="duration">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
+            <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          4 min
+        </div>
+        <button class="btn-outline" style="margin-top: auto">Start module</button>
+      </div>
+
+      <!-- Optional 2 -->
+      <div class="card flex-col">
+        <span class="pill optional">Optional learning</span>
+        <div class="thumb disc-thumb">
+          <div class="play-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M5 3l14 9-14 9V3z" fill="white" />
+            </svg>
+          </div>
+        </div>
+        <span class="mod-title">Discharge checklist</span>
+        <div class="duration">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
+            <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          5 min
+        </div>
+        <button class="btn-outline" style="margin-top: auto">Start module</button>
+      </div>
+    </section>
+
+    <!-- BOTTOM ROW -->
+    <section class="bottom-row">
+      <!-- Quick Actions -->
+      <div class="card">
+        <h3 class="section-title" style="margin-bottom: 16px">Quick actions</h3>
+        <div class="qa-grid">
+          @for (action of quickActions; track $index) {
+            <button class="qa-btn">
+              <div class="qa-icon" [style.background]="action.bg">
+                <span [innerHTML]="action.icon"></span>
+                @if (action.badge) {
+                  <span class="qa-badge">{{ action.badge }}</span>
+                }
+              </div>
+              <span class="qa-label">{{ action.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="card">
+        <h3 class="section-title" style="margin-bottom: 16px">Your progress</h3>
+        <div class="progress-body">
+          <div class="donut-wrap">
+            <svg width="110" height="110" viewBox="0 0 110 110">
+              <circle cx="55" cy="55" r="46" fill="none" stroke="#e8ecf4" stroke-width="9" />
+              <circle
+                cx="55"
+                cy="55"
+                r="46"
+                fill="none"
+                stroke="url(#grad)"
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-dasharray="289.03"
+                stroke-dashoffset="121.4"
+                transform="rotate(-90 55 55)"
+              />
+              <defs>
+                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#1a9e8f" />
+                  <stop offset="100%" stop-color="#2b4ec7" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="donut-center"><span class="donut-pct">58%</span></div>
+          </div>
+          <div class="progress-details">
+            <span class="modules-done">7 of 12 modules completed</span>
+            <div class="progress-bar" style="height: 8px">
+              <div class="progress-fill" style="width: 58%"></div>
+            </div>
+            <div class="keep-up">
+              Keep it up!
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M9 18l6-6-6-6" stroke="#1a9e8f" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ask Claude -->
+      <div class="card ask-card">
+        <div class="ask-header">
+          <div class="ask-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                stroke="#1a9e8f"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <span class="ask-title">Ask Claude</span>
+        </div>
+        <p class="ask-sub">Need help during your shift?</p>
+        <button class="btn-ask">Ask now</button>
+      </div>
+    </section>
+  </main>
+</div>
