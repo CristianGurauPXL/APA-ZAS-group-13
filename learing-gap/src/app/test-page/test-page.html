@@ -3,124 +3,25 @@
     <h2>Medication Round Assessment</h2>
 
     <form (ngSubmit)="submitQuiz()">
-      <!-- Question 1 -->
-      <div class="question" [ngClass]="getQuestionClass('q1')">
-        <p>1. What is the MOST important purpose of a medication handover?</p>
-        <label
-          ><input type="radio" name="q1" [(ngModel)]="answers.q1" value="A" /> To reduce
-          paperwork</label
-        >
-        <label
-          ><input type="radio" name="q1" [(ngModel)]="answers.q1" value="B" /> Ensure continuity and
-          safety of care</label
-        >
-        <label
-          ><input type="radio" name="q1" [(ngModel)]="answers.q1" value="C" /> Update
-          administration</label
-        >
-        <label
-          ><input type="radio" name="q1" [(ngModel)]="answers.q1" value="D" /> Track nurse
-          performance</label
-        >
-        @if (submitted && lastSubmittedAnswers.q1 !== correctAnswers.q1) {
-          <p class="error-text">❌ Incorrect.</p>
-        }
-      </div>
+      @for (q of questions; track q.id) {
+        <div class="question" [ngClass]="getQuestionClass(q.id)">
+          <p>{{ $index + 1 }}. {{ q.text }}</p>
 
-      <!-- Question 2 -->
-      <div class="question" [ngClass]="getQuestionClass('q2')">
-        <p>2. What should ALWAYS be included in a medication handover?</p>
-        <label
-          ><input type="radio" name="q2" [(ngModel)]="answers.q2" value="A" /> Personal
-          opinions</label
-        >
-        <label
-          ><input type="radio" name="q2" [(ngModel)]="answers.q2" value="B" /> Medication schedule,
-          changes, allergies</label
-        >
-        <label
-          ><input type="radio" name="q2" [(ngModel)]="answers.q2" value="C" /> Only completed
-          tasks</label
-        >
-        <label
-          ><input type="radio" name="q2" [(ngModel)]="answers.q2" value="D" /> Staffing
-          levels</label
-        >
-        @if (submitted && lastSubmittedAnswers.q2 !== correctAnswers.q2) {
-          <p class="error-text">❌ Incorrect.</p>
-        }
-      </div>
+          @for (opt of q.options; track opt.value) {
+            <label>
+              <input type="radio" [name]="q.id" [(ngModel)]="answers[q.id]" [value]="opt.value" />
+              {{ opt.value }}) {{ opt.label }}
+            </label>
+          }
 
-      <!-- Question 3 -->
-      <div class="question" [ngClass]="getQuestionClass('q3')">
-        <p>3. What must you do before administering medication?</p>
-        <label
-          ><input type="radio" name="q3" [(ngModel)]="answers.q3" value="A" /> Ask another nurse
-          later</label
-        >
-        <label
-          ><input type="radio" name="q3" [(ngModel)]="answers.q3" value="B" /> Check the 5
-          rights</label
-        >
-        <label
-          ><input type="radio" name="q3" [(ngModel)]="answers.q3" value="C" /> Administer
-          quickly</label
-        >
-        <label
-          ><input type="radio" name="q3" [(ngModel)]="answers.q3" value="D" /> Trust previous
-          notes</label
-        >
-        @if (submitted && lastSubmittedAnswers.q3 !== correctAnswers.q3) {
-          <p class="error-text">❌ Incorrect.</p>
-        }
-      </div>
+          @if (submitted && lastSubmittedAnswers[q.id] !== q.correctAnswer) {
+            <p class="error-text">❌ Incorrect.</p>
+          }
+        </div>
+      }
 
-      <!-- Question 4 -->
-      <div class="question" [ngClass]="getQuestionClass('q4')">
-        <p>4. A patient refuses medication. What should you do FIRST?</p>
-        <label
-          ><input type="radio" name="q4" [(ngModel)]="answers.q4" value="A" /> Force them</label
-        >
-        <label><input type="radio" name="q4" [(ngModel)]="answers.q4" value="B" /> Ignore it</label>
-        <label
-          ><input type="radio" name="q4" [(ngModel)]="answers.q4" value="C" /> Document and inform
-          staff</label
-        >
-        <label
-          ><input type="radio" name="q4" [(ngModel)]="answers.q4" value="D" /> Hide
-          medication</label
-        >
-        @if (submitted && lastSubmittedAnswers.q4 !== correctAnswers.q4) {
-          <p class="error-text">❌ Incorrect.</p>
-        }
-      </div>
-
-      <!-- Question 5 -->
-      <div class="question" [ngClass]="getQuestionClass('q5')">
-        <p>5. What is the BEST way to reduce handover errors?</p>
-        <label
-          ><input type="radio" name="q5" [(ngModel)]="answers.q5" value="A" /> Keep it quick</label
-        >
-        <label
-          ><input type="radio" name="q5" [(ngModel)]="answers.q5" value="B" /> Use structured tools
-          (SBAR)</label
-        >
-        <label
-          ><input type="radio" name="q5" [(ngModel)]="answers.q5" value="C" /> Only verbal
-          communication</label
-        >
-        <label
-          ><input type="radio" name="q5" [(ngModel)]="answers.q5" value="D" /> Avoid
-          questions</label
-        >
-        @if (submitted && lastSubmittedAnswers.q5 !== correctAnswers.q5) {
-          <p class="error-text">❌ Incorrect.</p>
-        }
-      </div>
-
-      <button type="submit">Submit</button>
+      <button type="submit">Submit Quiz</button>
     </form>
-
     <div class="quiz-container">
       @if (score !== null) {
         <div class="results-banner">

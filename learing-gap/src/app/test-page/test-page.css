@@ -1,0 +1,142 @@
+/* Container styling */
+.quiz-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+h2 {
+  color: #1e293b;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+/* Individual Question Cards */
+.question {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.question p {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+/* Radio Button Styling */
+label {
+  display: block;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+label:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+input[type='radio'] {
+  margin-right: 10px;
+  accent-color: #1a9e8f; /* Matches your Teal theme */
+}
+
+/* Feedback States */
+.correct-q {
+  border-left: 6px solid #10b981 !important;
+  background-color: #f0fdf4 !important;
+}
+
+.wrong-q {
+  border-left: 6px solid #ef4444 !important;
+  background-color: #fef2f2 !important;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Buttons */
+button[type='submit'] {
+  width: 100%;
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: opacity 0.2s;
+}
+
+button[type='submit']:hover {
+  opacity: 0.9;
+}
+
+/* Results Section */
+.results-banner {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px dashed #e2e8f0;
+}
+
+.success-message {
+  padding: 1.5rem;
+  background: #ecfdf5;
+  border-radius: 12px;
+  border: 1px solid #10b981;
+}
+
+.back-btn {
+  background: #1a9e8f;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.retry-btn {
+  background: #64748b;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.retry-text {
+  color: #64748b;
+  font-style: italic;
+}
