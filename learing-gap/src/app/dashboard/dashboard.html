@@ -119,53 +119,55 @@
             </div>
           </ng-template>
 
-          <div class="mod-body d-flex flex-row gap-4" *ngIf="mandatoryModules[0] as module">
-            <div class="video-container" (click)="playVideo(module)">
-              <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
-              <div class="play-overlay">
-                <div class="play-circle">
-                  <i class="pi pi-play-fill"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="mod-info d-flex flex-column flex-grow-1">
-              <h3 class="mod-title mb-1">{{ module.title }}</h3>
-
-              <div class="duration mb-2">
-                <i class="pi pi-clock text-muted"></i>
-                <span class="ms-1">{{ module.duration }} min</span>
-              </div>
-
-              <p-progressBar
-                [value]="module.progress"
-                [showValue]="false"
-                class="mb-1"
-              ></p-progressBar>
-              <div class="progress-details d-flex justify-content-between mb-3">
-                <span class="progress-lbl">{{ module.progress }}% complete</span>
-                <span class="note italic text-muted">Continue before end of shift</span>
-              </div>
-
-              @if (module.linkedTask) {
-                <div class="linked-chip p-2 mb-3">
-                  <div class="d-flex align-items-center gap-2">
-                    <i class="pi pi-link text-teal"></i>
-                    <span class="linked-text">Linked to {{ module.linkedTask }}</span>
+          @if (mandatoryModules[0]; as module) {
+            <div class="mod-body d-flex flex-row gap-4">
+              <div class="video-container" (click)="playVideo(module)">
+                <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
+                <div class="play-overlay">
+                  <div class="play-circle">
+                    <i class="pi pi-play-fill"></i>
                   </div>
-                  <div class="linked-sub ms-4">For upcoming medication round</div>
                 </div>
-              }
+              </div>
 
-              <button
-                pButton
-                type="button"
-                label="Continue module"
-                (click)="playVideo(module)"
-                class="p-button-primary w-full mt-auto"
-              ></button>
+              <div class="mod-info d-flex flex-column flex-grow-1">
+                <h3 class="mod-title mb-1">{{ module.title }}</h3>
+
+                <div class="duration mb-2">
+                  <i class="pi pi-clock text-muted"></i>
+                  <span class="ms-1">{{ module.duration }} min</span>
+                </div>
+
+                <p-progressBar
+                  [value]="module.progress"
+                  [showValue]="false"
+                  class="mb-1"
+                ></p-progressBar>
+                <div class="progress-details d-flex justify-content-between mb-3">
+                  <span class="progress-lbl">{{ module.progress }}% complete</span>
+                  <span class="note italic text-muted">Continue before end of shift</span>
+                </div>
+
+                @if (module.linkedTask) {
+                  <div class="linked-chip p-2 mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="pi pi-link text-teal"></i>
+                      <span class="linked-text">Linked to {{ module.linkedTask }}</span>
+                    </div>
+                    <div class="linked-sub ms-4">For upcoming medication round</div>
+                  </div>
+                }
+
+                <button
+                  pButton
+                  type="button"
+                  label="Continue module"
+                  (click)="playVideo(module)"
+                  class="p-button-primary w-full mt-auto"
+                ></button>
+              </div>
             </div>
-          </div>
+          }
         </p-card>
       }
 
@@ -187,27 +189,30 @@
             </div>
           </ng-template>
 
-          <div class="assessment-content" *ngIf="assessmentModules[0] as module">
-            <span class="mod-title">{{ module.title }}</span>
-            <span class="mod-description">{{ module.description }}</span>
-            <div class="duration">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
-                <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
-              </svg>
-              {{ module.duration }} min
+          @if (assessmentModules[0]; as module) {
+            <div class="assessment-content">
+              <span class="mod-title">{{ module.title }}</span>
+              <span class="mod-description">{{ module.description }}</span>
+              <div class="duration">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
+                  <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                {{ module.duration }} min
+              </div>
+              <p-tag value="Pending" severity="warn"></p-tag>
+              <span class="note">Complete after module</span>
+              <button
+                pButton
+                type="button"
+                label="Open test"
+                icon="pi pi-file"
+                class="p-button-sm p-button-outlined"
+                style="margin-top: auto"
+                (click)="goToTest(module)"
+              ></button>
             </div>
-            <p-tag value="Pending" severity="warn"></p-tag>
-            <span class="note">Complete after module</span>
-            <button
-              pButton
-              type="button"
-              label="Open test"
-              icon="pi pi-file"
-              class="p-button-sm p-button-outlined"
-              style="margin-top: auto"
-            ></button>
-          </div>
+          }
         </p-card>
       }
 
@@ -338,7 +343,9 @@
                 stroke-width="9"
                 stroke-linecap="round"
                 [attr.stroke-dasharray]="289.03"
-                [attr.stroke-dashoffset]="289.03 - (getProgressPercentage() / 100) * 289.03"
+                [attr.stroke-dashoffset]="
+                  289.03 - (getMandatoryProgressPercentage() / 100) * 289.03
+                "
                 transform="rotate(-90 55 55)"
                 style="transition: stroke-dashoffset 0.5s ease"
               />
@@ -350,14 +357,17 @@
               </defs>
             </svg>
             <div class="donut-center">
-              <span class="donut-pct">{{ getProgressPercentage() }}%</span>
+              <span class="donut-pct">{{ getMandatoryProgressPercentage() }}%</span>
             </div>
           </div>
           <div class="progress-details">
             <span class="modules-done"
               >{{ getCompletedCount() }} of {{ getTotalCount() }} modules completed</span
             >
-            <p-progressBar [value]="getProgressPercentage()" [showValue]="false"></p-progressBar>
+            <p-progressBar
+              [value]="getMandatoryProgressPercentage()"
+              [showValue]="false"
+            ></p-progressBar>
             <div class="keep-up">
               Keep it up!
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">

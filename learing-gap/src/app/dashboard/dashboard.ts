@@ -16,6 +16,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/api';
 
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -118,6 +120,10 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'assessment',
       completed: false,
+      linkedTo: {
+        moduleIds: ['mod-001'],
+        requirement: 'all',
+      },
     },
   ];
 
@@ -302,12 +308,53 @@ export class Dashboard implements OnInit {
   constructor(
     private sanitizer: DomSanitizer,
     private messageService: MessageService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.initializeCharts();
   }
 
   ngOnInit(): void {
     this.initializeCharts();
+
+    this.route.queryParams.subscribe((params) => {
+      const completedId = params['completed'];
+
+      if (completedId) {
+        this.markAsDone(completedId);
+      }
+    });
+  }
+
+  markAsDone(assessmentId: string) {
+    // 1. Find the assessment module itself
+    const assessment = this.assessmentModules.find((m) => m.id === assessmentId);
+
+    if (assessment) {
+      assessment.completed = true;
+      assessment.progress = 100;
+
+      // 2. Check if this assessment is linked to other modules
+      if (assessment.linkedTo && assessment.linkedTo.moduleIds) {
+        const linkedIds = assessment.linkedTo.moduleIds;
+
+        // 3. Mark matching Mandatory modules as completed
+        this.mandatoryModules.forEach((mod) => {
+          if (linkedIds.includes(mod.id)) {
+            mod.completed = true;
+            mod.progress = 100;
+          }
+        });
+
+        // 4. Mark matching Optional modules as completed
+        this.optionalModules.forEach((mod) => {
+          if (linkedIds.includes(mod.id)) {
+            mod.completed = true;
+            mod.progress = 100;
+          }
+        });
+      }
+    }
   }
 
   // ─────────────────────────────────────
@@ -358,26 +405,18 @@ export class Dashboard implements OnInit {
   // ─────────────────────────────────────
 
   getProgressPercentage(): number {
-    const allModules = [
-      ...this.mandatoryModules,
-      ...this.assessmentModules,
-      ...this.optionalModules,
-    ];
+    const allModules = [...this.assessmentModules];
     const completed = allModules.filter((m) => m.completed).length;
     return allModules.length > 0 ? Math.round((completed / allModules.length) * 100) : 0;
   }
 
   getCompletedCount(): number {
-    const allModules = [
-      ...this.mandatoryModules,
-      ...this.assessmentModules,
-      ...this.optionalModules,
-    ];
+    const allModules = [...this.assessmentModules];
     return allModules.filter((m) => m.completed).length;
   }
 
   getTotalCount(): number {
-    return [...this.mandatoryModules, ...this.assessmentModules, ...this.optionalModules].length;
+    return [...this.assessmentModules].length;
   }
 
   // ─────────────────────────────────────
@@ -540,5 +579,45 @@ export class Dashboard implements OnInit {
 
   getPendingTasksCount(): number {
     return this.tasks.filter((t) => !t.completed && t.status === 'Pending').length;
+  }
+
+  getLinkedModule(assessment: any) {
+    return this.mandatoryModules.find((m) => m.id === assessment.basedOnModuleId);
+  }
+
+  isAssessmentLocked(assessment: any) {
+    const module = this.getLinkedModule(assessment);
+    return !module?.completed;
+  }
+
+  isAssessmentUnlocked(assessment: any): boolean {
+    if (!assessment.linkedTo) return true;
+
+    const linkedModules = this.mandatoryModules.filter((m) =>
+      assessment.linkedTo.moduleIds.includes(m.id),
+    );
+
+    if (assessment.linkedTo.requirement === 'all') {
+      return linkedModules.every((m) => m.completed);
+    }
+
+    if (assessment.linkedTo.requirement === 'any') {
+      return linkedModules.some((m) => m.completed);
+    }
+
+    return false;
+  }
+
+  getMandatoryProgressPercentage(): number {
+    if (this.mandatoryModules.length === 0) return 0;
+
+    const total = this.mandatoryModules.length;
+    const completed = this.mandatoryModules.filter((m) => m.completed).length;
+
+    return Math.round((completed / total) * 100);
+  }
+
+  goToTest(module: any) {
+    this.router.navigate(['/assessment', module.id]);
   }
 }
