@@ -257,27 +257,26 @@ export class Dashboard implements OnInit {
         this.showToast('info', 'Blood Transfusion', 'Initiating blood transfusion protocol...'),
     },
     {
-      label: 'Last alerts',
-      icon: 'pi pi-heart-fill',
-      color: '#e91e63', // Pink/Red
-      bg: '#fff3e0',
-      badge: 4,
-      action: () => this.toggleAlertsSidebar(),
+      label: 'Emergency Call',
+      icon: 'pi pi-megaphone',
+      color: '#ef4444', // Red for urgency
+      bg: '#fef2f2',
+      action: () => this.showToast('error', 'Emergency', 'Alerting ward supervisor...'),
     },
     {
-      label: 'Completed 5 tasks',
-      icon: 'pi pi-bell',
-      color: '#f59e0b',
-      bg: '#fff3e0', // Orange
-      action: () =>
-        this.showToast('success', 'Tasks Completed', 'You have completed 5 tasks today!'),
+      label: 'Handover Notes',
+      icon: 'pi pi-file-edit',
+      color: '#2b4ec7', // Primary Blue
+      bg: '#eff6ff',
+      badge: 'New',
+      action: () => this.showToast('success', 'Handover', 'Loading patient handover summary...'),
     },
     {
-      label: 'Task checklist',
-      icon: 'pi pi-check-square',
-      color: '#2b4ec7', // Blue
-      bg: '#f0effe',
-      action: () => this.showTasksTable(),
+      label: 'Enter Vitals',
+      icon: 'pi pi-activity',
+      color: '#8b5cf6', // Purple
+      bg: '#f5f3ff',
+      action: () => this.showToast('info', 'Vitals', 'Opening observation chart...'),
     },
   ];
 
