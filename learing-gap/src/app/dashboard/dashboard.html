@@ -26,10 +26,10 @@
         <div class="nurse-info">
           <span class="greeting">Good morning, {{ nurseProfile.name }}</span>
           <span class="nurse-name"
-            >{{ nurseProfile.name }}, <strong>{{ nurseProfile.rn }}</strong></span
+          >{{ nurseProfile.name }}, <strong>{{ nurseProfile.rn }}</strong></span
           >
           <span class="ward-info"
-            >{{ nurseProfile.ward }} &nbsp;·&nbsp; {{ nurseProfile.shift }}</span
+          >{{ nurseProfile.ward }} &nbsp;·&nbsp; {{ nurseProfile.shift }}</span
           >
         </div>
       </div>
@@ -198,7 +198,7 @@
               {{ module.duration }} min
             </div>
             <p-tag value="Pending" severity="warn"></p-tag>
-            <span class="note">Complete after module</span>
+            <span class="note">Complete after mandatory module</span>
             <button
               pButton
               type="button"
@@ -355,7 +355,7 @@
           </div>
           <div class="progress-details">
             <span class="modules-done"
-              >{{ getCompletedCount() }} of {{ getTotalCount() }} modules completed</span
+            >{{ getCompletedCount() }} of {{ getTotalCount() }} modules completed</span
             >
             <p-progressBar [value]="getProgressPercentage()" [showValue]="false"></p-progressBar>
             <div class="keep-up">
@@ -420,11 +420,11 @@
         <p class="mod-description">{{ selectedModule?.description }}</p>
         <div class="video-stats mt-2">
           <span
-            ><i class="pi pi-clock"></i> <strong>Duration:</strong>
+          ><i class="pi pi-clock"></i> <strong>Duration:</strong>
             {{ selectedModule?.duration }} min</span
           >
           <span class="ms-4"
-            ><i class="pi pi-chart-line"></i> <strong>Your Progress:</strong>
+          ><i class="pi pi-chart-line"></i> <strong>Your Progress:</strong>
             {{ selectedModule?.progress }}%</span
           >
         </div>

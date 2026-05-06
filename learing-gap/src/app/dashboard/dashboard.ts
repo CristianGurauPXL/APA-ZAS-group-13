@@ -331,6 +331,12 @@ export class Dashboard implements OnInit {
   displayVideoPlayer: boolean = false;
 
   playVideo(module: any) {
+    // Validate that the module has a videoId before attempting to play
+    if (!module.videoId) {
+      this.showToast('warn', 'Video Not Available', 'This module does not have a video');
+      return;
+    }
+
     this.selectedModule = module;
     // Construct the embed URL. YouTube requires /embed/ for iframe playback.
     const rawUrl = `https://www.youtube.com/embed/${module.videoId}?autoplay=1`;
