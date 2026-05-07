@@ -152,7 +152,7 @@
 
 .nurse-name strong {
   font-weight: 700;
-  color: var(--primary-blue);
+  color: var(--primary-teal);
 }
 
 .ward-info {
@@ -707,7 +707,7 @@
 }
 
 ::ng-deep .p-button.p-button-primary {
-  background: var(--primary-blue) !important;
+  background: var(--primary-teal) !important;
   border: none !important;
   box-shadow: 0 2px 8px rgba(43, 78, 199, 0.15) !important;
 }
