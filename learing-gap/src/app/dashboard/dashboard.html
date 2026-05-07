@@ -45,7 +45,6 @@
           pTooltip="Notifications"
           tooltipPosition="bottom"
         >
-          <p-badge [value]="getAlertBadgeCount()" severity="danger"></p-badge>
         </button>
         <button
           pButton
@@ -62,7 +61,7 @@
   <!-- ── MAIN DASHBOARD ── -->
   <main class="dashboard">
     <!-- SCHEDULE SECTION -->
-    <h2>schedule of today</h2>
+    <h2>Schedule of today</h2>
     <div class="carousel-section mb-4">
       <p-carousel [value]="tasks" [numVisible]="3" [numScroll]="1" class="task-carousel">
         <ng-template let-task pTemplate="item">
