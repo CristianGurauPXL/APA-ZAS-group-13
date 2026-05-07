@@ -53,7 +53,6 @@ export class Dashboard implements OnInit {
       room: 'Room 204B',
       task: 'Medication round',
       active: true,
-      priority: 'high',
       completed: false,
     },
     {
@@ -62,7 +61,6 @@ export class Dashboard implements OnInit {
       room: 'Room 208A',
       task: 'Wound care',
       active: false,
-      priority: 'medium',
       completed: false,
     },
     {
@@ -71,7 +69,6 @@ export class Dashboard implements OnInit {
       room: 'Room 210',
       task: 'Discharge preparation',
       active: false,
-      priority: 'low',
       completed: false,
     },
     {
@@ -80,7 +77,6 @@ export class Dashboard implements OnInit {
       room: 'Room 212',
       task: 'Vitals check',
       active: false,
-      priority: 'high',
       completed: false,
     },
     {
@@ -89,7 +85,6 @@ export class Dashboard implements OnInit {
       room: 'Room 205',
       task: 'Patient interview',
       active: false,
-      priority: 'medium',
       completed: false,
     },
   ];
@@ -950,5 +945,16 @@ export class Dashboard implements OnInit {
         return linkedModule && linkedModule.taskId === this.selectedTaskId;
       });
     });
+  }
+  // Check if a task is fully done by looking at its mandatory modules
+  isTaskFinished(taskId: number): boolean {
+    // 1. Get all mandatory modules for this specific task
+    const taskMandatories = this.mandatoryModules.filter((m) => m.taskId === taskId);
+
+    // 2. If there are no modules assigned, you might want it to be false or true
+    if (taskMandatories.length === 0) return false;
+
+    // 3. Check if EVERY mandatory module in that list is marked as completed
+    return taskMandatories.every((m) => m.completed);
   }
 }

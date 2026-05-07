@@ -28,10 +28,10 @@
         <div class="nurse-info">
           <span class="greeting">Good morning, {{ nurseProfile.name }}</span>
           <span class="nurse-name"
-          >{{ nurseProfile.name }}, <strong>{{ nurseProfile.rn }}</strong></span
+            >{{ nurseProfile.name }}, <strong>{{ nurseProfile.rn }}</strong></span
           >
           <span class="ward-info"
-          >{{ nurseProfile.ward }} &nbsp;·&nbsp; {{ nurseProfile.shift }}</span
+            >{{ nurseProfile.ward }} &nbsp;·&nbsp; {{ nurseProfile.shift }}</span
           >
         </div>
       </div>
@@ -72,14 +72,14 @@
             (click)="selectTask(task)"
           >
             <div class="task-status">
-              <p-tag [value]="task.priority" [severity]="getPriorityTag(task.priority)"></p-tag>
-              @if (task.completed) {
+              @if (isTaskFinished(task.id)) {
                 <i class="pi pi-check-circle text-success"></i>
               }
             </div>
 
             <div class="task-main">
               <span class="task-title">{{ task.title }}</span>
+              <br />
               <span class="task-room">{{ task.room }}</span>
             </div>
 
@@ -283,7 +283,7 @@
           </div>
           <div class="progress-details">
             <span class="modules-done"
-            >{{ getCompletedCount() }} of {{ getTotalCount() }} modules completed</span
+              >{{ getCompletedCount() }} of {{ getTotalCount() }} modules completed</span
             >
             <p-progressBar
               [value]="getMandatoryProgressPercentage()"
@@ -351,11 +351,11 @@
         <p class="mod-description">{{ selectedModule?.description }}</p>
         <div class="video-stats mt-2">
           <span
-          ><i class="pi pi-clock"></i> <strong>Duration:</strong>
+            ><i class="pi pi-clock"></i> <strong>Duration:</strong>
             {{ selectedModule?.duration }} min</span
           >
           <span class="ms-4"
-          ><i class="pi pi-chart-line"></i> <strong>Your Progress:</strong>
+            ><i class="pi pi-chart-line"></i> <strong>Your Progress:</strong>
             {{ selectedModule?.progress }}%</span
           >
         </div>
