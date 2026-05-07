@@ -344,7 +344,7 @@ export class Dashboard implements OnInit {
       type: 'optional',
       videoId: 'ScMzIvxBSi4',
       thumbnail:
-        'https://i.ytimg.com/vi/pXrGIZOLz4k/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDfVLropTn1i6ApdQ3H1FZF_OBaiQ',
+        'https://i.ytimg.com/vi/dbgWpeEEtaM/hqdefault.jpg?sqp=-oaymwEnCOADEI4CSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAOf6XSTLdz11UsrS-Ux83YrwpLkQ',
       completed: false,
       taskId: 4,
     },
