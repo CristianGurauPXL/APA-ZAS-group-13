@@ -62,79 +62,64 @@
   <!-- ── MAIN DASHBOARD ── -->
   <main class="dashboard">
     <!-- SCHEDULE SECTION -->
-    <p-card class="schedule-card">
-      <ng-template pTemplate="header">
-        <div class="card-header">
-          <h2 class="section-title">Upcoming ward schedule</h2>
-          <a href="#" class="view-link">View full schedule ›</a>
-        </div>
-      </ng-template>
-
-      <div class="schedule-grid">
-        @for (item of scheduleItems; track $index) {
+    <h2>schedule of today</h2>
+    <div class="carousel-section mb-4">
+      <p-carousel [value]="tasks" [numVisible]="3" [numScroll]="1" class="task-carousel">
+        <ng-template let-task pTemplate="item">
           <div
-            class="schedule-item"
-            [class.active]="item.active"
-            [class.completed]="item.completed"
-            (click)="setActive(item)"
+            class="task-card-item"
+            [class.active-task]="selectedTaskId === task.id"
+            (click)="selectTask(task)"
           >
-            <div class="time-row">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="9"
-                  [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
-                  stroke-width="2"
-                />
-                <path
-                  d="M12 7v5l3 3"
-                  [attr.stroke]="item.active ? '#1a9e8f' : '#8a96ae'"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-              </svg>
-              <span class="sched-time" [class.active-time]="item.active">{{ item.time }}</span>
-              <span class="chevron">›</span>
+            <div class="task-status">
+              <p-tag [value]="task.priority" [severity]="getPriorityTag(task.priority)"></p-tag>
+              @if (task.completed) {
+                <i class="pi pi-check-circle text-success"></i>
+              }
             </div>
-            <span class="sched-room">{{ item.room }}</span>
-            <span class="sched-task">{{ item.task }}</span>
-            <p-tag [value]="item.priority | uppercase" [severity]="getPriorityTag(item.priority)">
-            </p-tag>
+
+            <div class="task-main">
+              <span class="task-title">{{ task.title }}</span>
+              <span class="task-room">{{ task.room }}</span>
+            </div>
+
+            <div class="task-footer">
+              <span class="status-text">{{ task.status }}</span>
+            </div>
           </div>
-        }
-      </div>
-    </p-card>
+        </ng-template>
+      </p-carousel>
+    </div>
 
     <!-- LEARNING MODULES GRID -->
-    <div class="learning-grid">
-      <!-- MANDATORY LEARNING -->
-      @if (mandatoryModules.length > 0) {
-        <p-card class="learning-card">
-          <ng-template pTemplate="header">
-            <div class="card-header p-3">
-              <div class="mod-label blue d-flex align-items-center gap-2">
-                <i class="pi pi-graduation-cap"></i>
-                <span>Mandatory learning</span>
-              </div>
-              <p-tag value="Required" severity="info" [rounded]="true"></p-tag>
-            </div>
-          </ng-template>
+    <div class="learning-section-header mb-3">
+      <h2 class="section-title">Modules for: {{ getActiveTaskTitle() }}</h2>
+    </div>
 
-          @if (mandatoryModules[0]; as module) {
+    <div class="learning-grid">
+      <div class="mandatory-column">
+        @for (module of currentMandatory; track module.id) {
+          <p-card class="learning-card mb-3">
+            <ng-template pTemplate="header">
+              <div class="card-header p-3">
+                <div class="mod-label blue d-flex align-items-center gap-2">
+                  <i class="pi pi-graduation-cap"></i>
+                  <span>Mandatory learning</span>
+                </div>
+                <p-tag value="Required" severity="info" [rounded]="true"></p-tag>
+              </div>
+            </ng-template>
+
             <div class="mod-body d-flex flex-row gap-4">
               <div class="video-container" (click)="playVideo(module)">
                 <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
                 <div class="play-overlay">
-                  <div class="play-circle">
-                    <i class="pi pi-play-fill"></i>
-                  </div>
+                  <div class="play-circle"><i class="pi pi-play-fill"></i></div>
                 </div>
               </div>
 
               <div class="mod-info d-flex flex-column flex-grow-1">
                 <h3 class="mod-title mb-1">{{ module.title }}</h3>
-
                 <div class="duration mb-2">
                   <i class="pi pi-clock text-muted"></i>
                   <span class="ms-1">{{ module.duration }} min</span>
@@ -147,18 +132,7 @@
                 ></p-progressBar>
                 <div class="progress-details d-flex justify-content-between mb-3">
                   <span class="progress-lbl">{{ module.progress }}% complete</span>
-                  <span class="note italic text-muted">Continue before end of shift</span>
                 </div>
-
-                @if (module.linkedTask) {
-                  <div class="linked-chip p-2 mb-3">
-                    <div class="d-flex align-items-center gap-2">
-                      <i class="pi pi-link text-teal"></i>
-                      <span class="linked-text">Linked to {{ module.linkedTask }}</span>
-                    </div>
-                    <div class="linked-sub ms-4">For upcoming medication round</div>
-                  </div>
-                }
 
                 <button
                   pButton
@@ -169,150 +143,71 @@
                 ></button>
               </div>
             </div>
-          }
-        </p-card>
-      }
+          </p-card>
+        } @empty {
+          <div class="empty-state p-4 text-center border-round surface-100">
+            <p class="text-muted italic">No mandatory modules assigned to this task.</p>
+          </div>
+        }
+      </div>
 
-      <!-- ASSESSMENT -->
-      @if (assessmentModules.length > 0) {
-        <p-card class="learning-card flex-col">
-          <ng-template pTemplate="header">
-            <div class="mod-label purple">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              Assessment
-            </div>
-          </ng-template>
-
-          @if (assessmentModules[0]; as module) {
+      <div class="optional-column d-flex flex-column gap-3">
+        @for (module of currentAssessments; track module.id) {
+          <p-card class="learning-card flex-col assessment-border">
+            <ng-template pTemplate="header">
+              <div class="mod-label purple"><i class="pi pi-check-square"></i> Assessment</div>
+            </ng-template>
             <div class="assessment-content">
               <span class="mod-title">{{ module.title }}</span>
               <span class="mod-description">{{ module.description }}</span>
-              <div class="duration">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
-                  <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                {{ module.duration }} min
-              </div>
-              <p-tag value="Pending" severity="warn"></p-tag>
-              <span class="note">Complete after mandatory module</span>
               <button
                 pButton
                 type="button"
                 label="Open test"
                 icon="pi pi-file"
-                class="p-button-sm p-button-outlined"
-                style="margin-top: auto"
+                class="p-button-sm p-button-outlined mt-3"
                 (click)="goToTest(module)"
               ></button>
             </div>
-          }
-        </p-card>
-      }
+          </p-card>
+        }
 
-      <!-- OPTIONAL 1 -->
-      @if (optionalModules.length > 0) {
-        <p-card class="learning-card flex-col">
-          <ng-template pTemplate="header">
-            <p-tag value="Optional" severity="secondary"></p-tag>
-          </ng-template>
-
-          <div class="optional-content" *ngIf="optionalModules[0] as module">
-            <div class="thumb-container" (click)="playVideo(module)">
-              <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
-              <div class="play-overlay">
-                <i class="pi pi-play-fill"></i>
+        @for (module of currentOptional; track module.id) {
+          <p-card class="learning-card flex-col">
+            <ng-template pTemplate="header">
+              <p-tag value="Optional" severity="secondary"></p-tag>
+            </ng-template>
+            <div class="optional-content">
+              <div class="thumb-container" (click)="playVideo(module)">
+                <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
+                <div class="play-overlay"><i class="pi pi-play-fill"></i></div>
+              </div>
+              <div class="module-details">
+                <span class="mod-title">{{ module.title }}</span>
+                <div class="duration mt-1">
+                  <i class="pi pi-clock"></i> {{ module.duration }} min
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button
+                    pButton
+                    label="Watch"
+                    (click)="playVideo(module)"
+                    class="p-button-sm p-button-outlined"
+                  ></button>
+                  <button
+                    pButton
+                    icon="pi pi-file"
+                    (click)="goToTest(module)"
+                    class="p-button-sm p-button-outlined"
+                  >
+                    Open test
+                  </button>
+                </div>
               </div>
             </div>
-
-            <div class="module-details">
-              <span class="mod-title">{{ module.title }}</span>
-              <span class="mod-description">{{ module.description }}</span>
-
-              <div class="duration">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
-                  <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                {{ module.duration }} min
-              </div>
-
-              <button
-                pButton
-                type="button"
-                label="Start module"
-                (click)="playVideo(module)"
-                class="p-button-sm p-button-outlined start-btn"
-              ></button>
-              <button
-                pButton
-                type="button"
-                label="Open test"
-                icon="pi pi-file"
-                class="p-button-sm p-button-outlined"
-                style="margin-top: auto"
-                (click)="goToTest(module)"
-              ></button>
-            </div>
-          </div>
-        </p-card>
-      }
-
-      <!-- OPTIONAL 2 -->
-      @if (optionalModules.length > 1) {
-        <p-card class="learning-card flex-col">
-          <ng-template pTemplate="header">
-            <p-tag value="Optional" severity="secondary"></p-tag>
-          </ng-template>
-
-          <div class="optional-content" *ngIf="optionalModules[1] as module">
-            <div class="thumb-container" (click)="playVideo(module)">
-              <img [src]="module.thumbnail" [alt]="module.title" class="video-img" />
-              <div class="play-overlay">
-                <i class="pi pi-play-fill"></i>
-              </div>
-            </div>
-
-            <div class="module-details">
-              <span class="mod-title">{{ module.title }}</span>
-              <span class="mod-description">{{ module.description }}</span>
-
-              <div class="duration">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="9" stroke="#8a96ae" stroke-width="2" />
-                  <path d="M12 7v5l3 3" stroke="#8a96ae" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                {{ module.duration }} min
-              </div>
-
-              <button
-                pButton
-                type="button"
-                label="Start module"
-                (click)="playVideo(module)"
-                class="p-button-sm p-button-outlined start-btn"
-              ></button>
-              <button
-                pButton
-                type="button"
-                label="Open test"
-                icon="pi pi-file"
-                class="p-button-sm p-button-outlined"
-                style="margin-top: auto"
-                (click)="goToTest(module)"
-              ></button>
-            </div>
-          </div>
-        </p-card>
-      }
+          </p-card>
+        }
+      </div>
     </div>
 
     <!-- BOTTOM ROW: QUICK ACTIONS, PROGRESS CHART, ASK CLAUDE -->

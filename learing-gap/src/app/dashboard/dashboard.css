@@ -328,9 +328,13 @@
 }
 
 /* --- LEARNING MODULES GRID --- */
+.learning-section-header {
+  margin: 5rem 0;
+}
+
 .learning-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr;
   gap: 1.5rem;
   margin-top: 2rem;
   align-items: start;

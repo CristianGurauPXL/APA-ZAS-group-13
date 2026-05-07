@@ -40,7 +40,7 @@ export class TestPage implements OnInit {
   questions: QuizQuestion[] = [];
   currentTitle: string = '';
   private quizDatabase: { [key: string]: { title: string; questions: QuizQuestion[] } } = {
-    'mod-001': {
+    'asmt-001': {
       title: 'Wound Care Refresh Assessment',
       questions: [
         {
@@ -101,7 +101,7 @@ export class TestPage implements OnInit {
       ],
     },
 
-    'mod-002': {
+    'opt-101': {
       title: 'Wound Care Refresh Assessment',
       questions: [
         {
@@ -129,7 +129,7 @@ export class TestPage implements OnInit {
       ],
     },
 
-    'mod-003': {
+    'opt-102': {
       title: 'Wound Care Refresh Assessment',
       questions: [
         {

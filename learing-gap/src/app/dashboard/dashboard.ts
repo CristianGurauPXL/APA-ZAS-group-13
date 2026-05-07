@@ -100,37 +100,93 @@ export class Dashboard implements OnInit {
   mandatoryModules = [
     {
       id: 'mod-001',
-      title: 'Safe medication handover',
-      description:
-        'Learn best practices for medication handover procedures to ensure patient safety',
+      title: 'Safe Medication Handover',
+      description: 'Best practices for medication handover procedures.',
       duration: 6,
-      progress: 58,
+      progress: 0,
       type: 'mandatory',
       videoId: 'P5ZJui3aPoQ',
       thumbnail: 'https://img.youtube.com/vi/P5ZJui3aPoQ/hqdefault.jpg',
       completed: false,
-      linkedTask: '08:30 medication round',
+      taskId: 1,
+    },
+    {
+      id: 'mod-002',
+      title: 'Aseptic Dressing Technique',
+      description: 'Maintaining a sterile field during complex wound care.',
+      duration: 7,
+      progress: 0,
+      type: 'mandatory',
+      videoId: '1iyT_uS7n-0',
+      thumbnail: 'https://img.youtube.com/vi/1iyT_uS7n-0/hqdefault.jpg',
+      completed: false,
+      taskId: 2,
+    },
+    {
+      id: 'mod-003',
+      title: 'Legal Discharge Standards',
+      description: 'Mandatory documentation and legal requirements for patient discharge.',
+      duration: 5,
+      progress: 0,
+      type: 'mandatory',
+      videoId: 'ScMzIvxBSi4',
+      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      completed: false,
+      taskId: 3,
+    },
+    {
+      id: 'mod-004',
+      title: 'Accurate Vitals Recording',
+      description: 'Standardizing the recording of vital signs in EMR systems.',
+      duration: 4,
+      progress: 0,
+      type: 'mandatory',
+      videoId: 'S-8_I8L8L3U',
+      thumbnail: 'https://img.youtube.com/vi/S-8_I8L8L3U/hqdefault.jpg',
+      completed: false,
+      taskId: 4,
+    },
+    {
+      id: 'mod-005',
+      title: 'Comprehensive Head-to-Toe',
+      description: 'Systematic approach to daily patient physical assessment.',
+      duration: 8,
+      progress: 0,
+      type: 'mandatory',
+      videoId: 'e2D69_S8m5Y',
+      thumbnail: 'https://img.youtube.com/vi/e2D69_S8m5Y/hqdefault.jpg',
+      completed: false,
+      taskId: 5,
+    },
+    {
+      id: 'mod-006',
+      title: 'Hypertension Management',
+      description: 'Recognizing critical blood pressure thresholds and protocols.',
+      duration: 6,
+      progress: 0,
+      type: 'mandatory',
+      videoId: 'X07pWTM-rXU',
+      thumbnail: 'https://img.youtube.com/vi/X07pWTM-rXU/hqdefault.jpg',
+      completed: false,
+      taskId: 6,
     },
   ];
 
   assessmentModules = [
     {
-      id: 'mod-001',
-      title: 'Doctor-executed test',
-      description: 'Medication round check assessment - verify your understanding',
+      id: 'asmt-001',
+      title: 'Medication Safety Quiz',
+      description: 'Final check for medication round protocols.',
       duration: 3,
       progress: 0,
       type: 'assessment',
       completed: false,
-      linkedTo: {
-        moduleIds: ['mod-001'],
-        requirement: 'all',
-      },
+      linkedTo: { moduleIds: ['mod-001'], requirement: 'all' },
     },
     {
-      id: 'mod-002',
-      title: 'Wound Care Assessment',
-      description: 'Verify your knowledge on advanced dressing techniques.',
+      id: 'asmt-002',
+      title: 'Wound Care Competency',
+      description: 'Practical knowledge assessment for dressings.',
       duration: 5,
       progress: 0,
       type: 'assessment',
@@ -138,39 +194,176 @@ export class Dashboard implements OnInit {
       linkedTo: { moduleIds: ['mod-002'], requirement: 'all' },
     },
     {
-      id: 'mod-003',
+      id: 'asmt-003',
       title: 'Discharge Protocol Test',
-      description: 'Ensure patient safety during the discharge transition.',
+      description: 'Compliance check for patient discharge.',
       duration: 4,
       progress: 0,
       type: 'assessment',
       completed: false,
       linkedTo: { moduleIds: ['mod-003'], requirement: 'all' },
     },
+    {
+      id: 'asmt-004',
+      title: 'Vitals Validation',
+      description: 'Assessing accuracy in vital sign interpretation.',
+      duration: 3,
+      progress: 0,
+      type: 'assessment',
+      completed: false,
+      linkedTo: { moduleIds: ['mod-004'], requirement: 'all' },
+    },
+    {
+      id: 'asmt-005',
+      title: 'Patient Assessment Check',
+      description: 'Evaluating head-to-toe assessment skills.',
+      duration: 5,
+      progress: 0,
+      type: 'assessment',
+      completed: false,
+      linkedTo: { moduleIds: ['mod-005'], requirement: 'all' },
+    },
+    {
+      id: 'asmt-006',
+      title: 'BP Monitoring Quiz',
+      description: 'Testing knowledge on hypertensive crises.',
+      duration: 4,
+      progress: 0,
+      type: 'assessment',
+      completed: false,
+      linkedTo: { moduleIds: ['mod-006'], requirement: 'all' },
+    },
   ];
 
   optionalModules = [
+    // Task 1: Medication Round
     {
-      id: 'mod-002',
-      title: 'Wound dressing refresh',
-      description: 'Advanced techniques for professional wound care management',
+      id: 'opt-101',
+      title: 'Insulin Administration',
+      description: 'Quick refresh on sliding scale insulin protocols.',
+      duration: 3,
+      progress: 0,
+      type: 'optional',
+      videoId: 'dQw4w9WgXcQ',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      completed: false,
+      taskId: 1,
+    },
+    {
+      id: 'opt-102',
+      title: 'IV Drip Calculations',
+      description: 'Fast math for manual IV flow rate settings.',
       duration: 4,
       progress: 0,
       type: 'optional',
       videoId: 'dQw4w9WgXcQ',
       thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
       completed: false,
+      taskId: 1,
     },
+
+    // Task 2: Wound Care
     {
-      id: 'mod-003',
-      title: 'Discharge checklist',
-      description: 'Complete discharge procedures and patient follow-up protocols',
+      id: 'opt-201',
+      title: 'Pressure Injury Staging',
+      description: 'Visual guide to identifying Stage I-IV ulcers.',
       duration: 5,
       progress: 0,
       type: 'optional',
       videoId: 'ScMzIvxBSi4',
       thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
       completed: false,
+      taskId: 2,
+    },
+    {
+      id: 'opt-202',
+      title: 'Negative Pressure Therapy',
+      description: 'Introduction to Wound-Vac machine troubleshooting.',
+      duration: 6,
+      progress: 0,
+      type: 'optional',
+      videoId: 'ScMzIvxBSi4',
+      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      completed: false,
+      taskId: 2,
+    },
+
+    // Task 3: Discharge Prep
+    {
+      id: 'opt-301',
+      title: 'Patient Transport Safety',
+      description: 'Safe transfer techniques from bed to wheelchair.',
+      duration: 3,
+      progress: 0,
+      type: 'optional',
+      videoId: 'dQw4w9WgXcQ',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      completed: false,
+      taskId: 3,
+    },
+    {
+      id: 'opt-302',
+      title: 'Medication Reconciliation',
+      description: 'Ensuring home meds match hospital discharge orders.',
+      duration: 5,
+      progress: 0,
+      type: 'optional',
+      videoId: 'dQw4w9WgXcQ',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      completed: false,
+      taskId: 3,
+    },
+
+    // Task 4: Vitals Check
+    {
+      id: 'opt-401',
+      title: 'Pediatric Vital Ranges',
+      description: 'Key differences in vitals for younger patients.',
+      duration: 4,
+      progress: 0,
+      type: 'optional',
+      videoId: 'ScMzIvxBSi4',
+      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      completed: false,
+      taskId: 4,
+    },
+    {
+      id: 'opt-402',
+      title: 'Recognizing Sepsis Signs',
+      description: 'Early warning indicators during routine vital checks.',
+      duration: 6,
+      progress: 0,
+      type: 'optional',
+      videoId: 'ScMzIvxBSi4',
+      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      completed: false,
+      taskId: 4,
+    },
+
+    // Task 6: Blood Pressure
+    {
+      id: 'opt-601',
+      title: 'Orthostatic Hypotension',
+      description: 'How to perform a proper tilt test assessment.',
+      duration: 4,
+      progress: 0,
+      type: 'optional',
+      videoId: 'dQw4w9WgXcQ',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      completed: false,
+      taskId: 6,
+    },
+    {
+      id: 'opt-602',
+      title: 'Cuff Sizing Impact',
+      description: 'How incorrect cuff size leads to diagnostic errors.',
+      duration: 3,
+      progress: 0,
+      type: 'optional',
+      videoId: 'dQw4w9WgXcQ',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      completed: false,
+      taskId: 6,
     },
   ];
 
@@ -325,6 +518,8 @@ export class Dashboard implements OnInit {
   // Chart Data
   chartData: any;
   chartOptions: any;
+
+  selectedTaskId: number = 1;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -680,5 +875,42 @@ export class Dashboard implements OnInit {
   resetAllProgress() {
     localStorage.removeItem('wardwise_completed');
     window.location.reload(); // Refresh to show everything as incomplete again
+  }
+
+  selectTask(task: any) {
+    this.selectedTaskId = task.id;
+  }
+
+  get currentMandatory() {
+    return this.mandatoryModules.filter((m) => m.taskId === this.selectedTaskId);
+  }
+
+  get currentOptional() {
+    return this.optionalModules.filter((m) => m.taskId === this.selectedTaskId);
+  }
+
+  getActiveTaskTitle(): string {
+    // 1. Find the task in your tasks array that matches the currently selected ID
+    const activeTask = this.tasks.find((t) => t.id === this.selectedTaskId);
+
+    // 2. Return the title if found, otherwise return a fallback string
+    return activeTask ? activeTask.title : 'No Task Selected';
+  }
+
+  get currentAssessments() {
+    return this.assessmentModules.filter((assessment) => {
+      // 1. Get the IDs of modules this assessment is linked to
+      const linkedIds = assessment.linkedTo?.moduleIds || [];
+
+      // 2. Check if any of those linked modules belong to the selected task
+      return linkedIds.some((moduleId) => {
+        // Find the actual module object (in mandatory or optional)
+        const allOtherModules = [...this.mandatoryModules];
+        const linkedModule = allOtherModules.find((m) => m.id === moduleId);
+
+        // If the linked module exists and matches our current task, keep this assessment
+        return linkedModule && linkedModule.taskId === this.selectedTaskId;
+      });
+    });
   }
 }
