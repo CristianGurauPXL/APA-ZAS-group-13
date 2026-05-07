@@ -267,38 +267,38 @@ export class Dashboard implements OnInit {
   ];
 
   // ─────────────────────────────────────
-  // HARDCODED QUICK ACTIONS
+  // EARNED BADGES (DYNAMICALLY UPDATED)
   // ─────────────────────────────────────
   quickActions = [
     {
-      label: 'Blood transfusion',
-      icon: 'pi pi-comments',
-      color: '#1a9e8f', // Teal
+      id: 'mod-001-badge',
+      label: 'Safe medication handover',
+      icon: 'pi pi-graduation-cap',
+      color: '#1a9e8f',
       bg: '#e8f5f3',
-      action: () =>
-        this.showToast('info', 'Blood Transfusion', 'Initiating blood transfusion protocol...'),
+      completed: false,
+      moduleId: 'mod-001',
+      action: () => this.showBadgeInfo('mod-001'),
     },
     {
-      label: 'Emergency Call',
-      icon: 'pi pi-megaphone',
-      color: '#ef4444', // Red for urgency
+      id: 'mod-002-badge',
+      label: 'Wound dressing refresh',
+      icon: 'pi pi-heart',
+      color: '#ef4444',
       bg: '#fef2f2',
-      action: () => this.showToast('error', 'Emergency', 'Alerting ward supervisor...'),
+      completed: false,
+      moduleId: 'mod-002',
+      action: () => this.showBadgeInfo('mod-002'),
     },
     {
-      label: 'Handover Notes',
-      icon: 'pi pi-file-edit',
-      color: '#2b4ec7', // Primary Blue
+      id: 'mod-003-badge',
+      label: 'Discharge checklist',
+      icon: 'pi pi-send',
+      color: '#2b4ec7',
       bg: '#eff6ff',
-      badge: 'New',
-      action: () => this.showToast('success', 'Handover', 'Loading patient handover summary...'),
-    },
-    {
-      label: 'Enter Vitals',
-      icon: 'pi pi-activity',
-      color: '#8b5cf6', // Purple
-      bg: '#f5f3ff',
-      action: () => this.showToast('info', 'Vitals', 'Opening observation chart...'),
+      completed: false,
+      moduleId: 'mod-003',
+      action: () => this.showBadgeInfo('mod-003'),
     },
   ];
 
@@ -350,6 +350,9 @@ export class Dashboard implements OnInit {
     this.optionalModules.forEach(syncModule);
     this.assessmentModules.forEach(syncModule);
 
+    // Update badge completion status after loading modules
+    this.updateBadgeStatus();
+
     this.route.queryParams.subscribe((params) => {
       const completedId = params['completed'];
 
@@ -357,6 +360,32 @@ export class Dashboard implements OnInit {
         this.markAsDone(completedId);
       }
     });
+  }
+
+  updateBadgeStatus(): void {
+    this.quickActions.forEach((badge) => {
+      const module = [...this.mandatoryModules, ...this.optionalModules].find(
+        (m) => m.id === badge.moduleId,
+      );
+      if (module) {
+        badge.completed = module.completed;
+      }
+    });
+  }
+
+  showBadgeInfo(moduleId: string): void {
+    const module = [...this.mandatoryModules, ...this.optionalModules].find(
+      (m) => m.id === moduleId,
+    );
+    if (module && module.completed) {
+      this.showToast(
+        'success',
+        '🏆 Badge Earned!',
+        `You've completed "${module.title}" and earned this badge!`,
+      );
+    } else if (module) {
+      this.showToast('info', 'Badge Locked', `Complete "${module.title}" to earn this badge.`);
+    }
   }
 
   markAsDone(assessmentId: string) {
@@ -402,6 +431,9 @@ export class Dashboard implements OnInit {
 
       // 5. Save the updated list back to LocalStorage
       localStorage.setItem('wardwise_completed', JSON.stringify(savedIds));
+
+      // Update badge completion status
+      this.updateBadgeStatus();
     } else {
       console.warn(`Could not find assessment with ID: ${assessmentId}`);
     }
