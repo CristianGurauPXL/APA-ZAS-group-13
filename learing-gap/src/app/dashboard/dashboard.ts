@@ -127,7 +127,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'mandatory',
       videoId: 'ScMzIvxBSi4',
-      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/m0jR2e0uWMY/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAgFliOSOXP903gkOQEXdiPTksbOA',
       completed: false,
       taskId: 3,
     },
@@ -139,7 +140,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'mandatory',
       videoId: 'S-8_I8L8L3U',
-      thumbnail: 'https://img.youtube.com/vi/S-8_I8L8L3U/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/llosVAoeojQ/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD1QvOu4Uw0gKsTCYYuRbl6e98-vg',
       completed: false,
       taskId: 4,
     },
@@ -151,7 +153,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'mandatory',
       videoId: 'e2D69_S8m5Y',
-      thumbnail: 'https://img.youtube.com/vi/e2D69_S8m5Y/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/gG8kh8MfnGY/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLC_BXSbZbTJ7begZegy2TLS1_0C6Q',
       completed: false,
       taskId: 5,
     },
@@ -163,7 +166,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'mandatory',
       videoId: 'X07pWTM-rXU',
-      thumbnail: 'https://img.youtube.com/vi/X07pWTM-rXU/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/Qm5kB5X70oA/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAFRRvG5Lr0AN9xXuM5MOxTX_57nA',
       completed: false,
       taskId: 6,
     },
@@ -298,7 +302,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'optional',
       videoId: 'dQw4w9WgXcQ',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/dESZxA8NzMI/hq720.jpg?sqp=-oaymwFBCNAFEJQDSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGE8gVihlMA8=&rs=AOn4CLCNbaqs6yt6yPmwpR1FZxBjIl_jeQ',
       completed: false,
       taskId: 3,
     },
@@ -310,7 +315,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'optional',
       videoId: 'dQw4w9WgXcQ',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/AhrCaFDGv3A/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBwmMeQRwv_Ha1LnT_0MnDKFsbVNg',
       completed: false,
       taskId: 3,
     },
@@ -324,7 +330,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'optional',
       videoId: 'ScMzIvxBSi4',
-      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/pXrGIZOLz4k/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDfVLropTn1i6ApdQ3H1FZF_OBaiQ',
       completed: false,
       taskId: 4,
     },
@@ -336,7 +343,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'optional',
       videoId: 'ScMzIvxBSi4',
-      thumbnail: 'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/pXrGIZOLz4k/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDfVLropTn1i6ApdQ3H1FZF_OBaiQ',
       completed: false,
       taskId: 4,
     },
@@ -350,7 +358,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'optional',
       videoId: 'dQw4w9WgXcQ',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/iJ1jUpOa6as/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBSdNAcKKvntAn_8fIzxY2-fMggoQ',
       completed: false,
       taskId: 6,
     },
@@ -362,7 +371,8 @@ export class Dashboard implements OnInit {
       progress: 0,
       type: 'optional',
       videoId: 'dQw4w9WgXcQ',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      thumbnail:
+        'https://i.ytimg.com/vi/XmjOqRfwVuQ/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBpLqxa6yEb-Z71w5tLpU37mLyOxQ',
       completed: false,
       taskId: 6,
     },
