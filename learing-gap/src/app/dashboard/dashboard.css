@@ -249,6 +249,131 @@
 }
 
 /* Schedule Grid */
+
+/* The base task card style */
+.task-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  background-color: var(--surface-card); /* Or #ffffff */
+}
+
+.task-card-item {
+  padding: 2rem 1rem 3rem 1rem;
+}
+
+/* Hover effect */
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* THE GREEN ACTIVE STATE */
+.active-task {
+  background-color: #e8f5e9 !important; /* Light green background */
+  border-color: #4caf50 !important; /* Solid green border */
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+}
+
+/* Optional: Change the text color of the title when active */
+.active-task .task-title {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+/* Optional: Make the icon or badge pop when active */
+.active-task p-tag {
+  filter: brightness(0.9);
+}
+/* Container for the carousel items */
+.carousel-container {
+  display: flex;
+  gap: 1rem;
+  padding: 10px 5px;
+  align-items: stretch;
+}
+
+/* Individual Task Card */
+.task-card {
+  flex: 1;
+  min-width: 280px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Hover Effect */
+.task-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ACTIVE/SELECTED GREEN STATE */
+.active-task {
+  background-color: #f1f9f1 !important; /* Soft green tint */
+  border: 2px solid #4caf50 !important; /* Bold green border */
+  border-radius: 1rem;
+}
+
+/* Typography & Layout inside the card */
+.priority-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #666;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.room-badge {
+  font-size: 0.85rem;
+  color: #555;
+  background: #f0f2f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.status-row {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Dot indicator for status */
+.status-dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-pending {
+  background-color: #ffa726;
+}
+.status-progress {
+  background-color: #29b6f6;
+}
 .schedule-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -716,7 +841,9 @@
 
 .qa-round-btn.badge-completed {
   border-color: var(--primary-teal) !important;
-  box-shadow: 0 0 0 3px rgba(26, 158, 143, 0.1), 0 4px 12px rgba(26, 158, 143, 0.2) !important;
+  box-shadow:
+    0 0 0 3px rgba(26, 158, 143, 0.1),
+    0 4px 12px rgba(26, 158, 143, 0.2) !important;
 }
 
 .qa-round-btn.badge-locked {

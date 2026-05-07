@@ -100,7 +100,33 @@ export class TestPage implements OnInit {
         },
       ],
     },
-
+    'asmt-002': {
+      title: 'Vitals Validation Assessment',
+      questions: [
+        {
+          id: 'q1',
+          text: 'An adult patient with a respiratory rate of 28 breaths per minute is experiencing:',
+          correctAnswer: 'A',
+          options: [
+            { label: 'Tachypnea', value: 'A' },
+            { label: 'Bradypnea', value: 'B' },
+            { label: 'Apnea', value: 'C' },
+            { label: 'Eupnea', value: 'D' },
+          ],
+        },
+        {
+          id: 'q2',
+          text: 'Which factor causes a falsely HIGH blood pressure reading?',
+          correctAnswer: 'B',
+          options: [
+            { label: 'Cuff is too large', value: 'A' },
+            { label: 'Cuff is too small', value: 'B' },
+            { label: 'Arm positioned above heart level', value: 'C' },
+            { label: 'Deflating the cuff too quickly', value: 'D' },
+          ],
+        },
+      ],
+    },
     'opt-101': {
       title: 'Wound Care Refresh Assessment',
       questions: [
@@ -152,6 +178,133 @@ export class TestPage implements OnInit {
             { label: 'The hospital security', value: 'B' },
             { label: 'The pharmacy technician', value: 'C' },
             { label: 'The insurance provider', value: 'D' },
+          ],
+        },
+      ],
+    },
+    'opt-103': {
+      title: 'Patient Communication & Safety Assessment',
+      questions: [
+        {
+          id: 'q1',
+          text: 'What is the PRIMARY benefit of using the "SBAR" communication tool?',
+          correctAnswer: 'A',
+          options: [
+            { label: 'Ensures clear, organized handoff of critical information', value: 'A' },
+            { label: 'Reduces the time nurses spend talking', value: 'B' },
+            { label: 'Eliminates the need for documentation', value: 'C' },
+            { label: 'Allows informal communication', value: 'D' },
+          ],
+        },
+        {
+          id: 'q2',
+          text: 'How should you respond when a patient expresses anxiety about their condition?',
+          correctAnswer: 'C',
+          options: [
+            { label: 'Tell them not to worry', value: 'A' },
+            { label: 'Ignore it and move on', value: 'B' },
+            { label: 'Listen, validate their concerns, and provide information', value: 'C' },
+            { label: 'Leave the room immediately', value: 'D' },
+          ],
+        },
+        {
+          id: 'q3',
+          text: 'What is an essential part of informed consent?',
+          correctAnswer: 'B',
+          options: [
+            { label: 'Verbal agreement only', value: 'A' },
+            { label: 'Patient understands risks, benefits, and alternatives', value: 'B' },
+            { label: 'Doctor decides without patient input', value: 'C' },
+            { label: 'Only family members need to agree', value: 'D' },
+          ],
+        },
+        {
+          id: 'q4',
+          text: 'A patient has difficulty understanding English. What should you do?',
+          correctAnswer: 'A',
+          options: [
+            { label: 'Arrange for a professional interpreter', value: 'A' },
+            { label: 'Ask a family member to translate', value: 'B' },
+            { label: 'Speak louder and slower', value: 'C' },
+            { label: 'Proceed without ensuring understanding', value: 'D' },
+          ],
+        },
+        {
+          id: 'q5',
+          text: 'What should you do if you make a medication error?',
+          correctAnswer: 'C',
+          options: [
+            { label: 'Hide it to avoid trouble', value: 'A' },
+            { label: 'Tell only your supervisor weeks later', value: 'B' },
+            { label: 'Report it immediately and document thoroughly', value: 'C' },
+            { label: 'Blame someone else', value: 'D' },
+          ],
+        },
+      ],
+    },
+
+    'opt-104': {
+      title: 'Infection Control & Hygiene Assessment',
+      questions: [
+        {
+          id: 'q1',
+          text: 'When should hand hygiene be performed in patient care?',
+          correctAnswer: 'D',
+          options: [
+            { label: 'Only before touching a patient', value: 'A' },
+            { label: 'Only after exposure to bodily fluids', value: 'B' },
+            { label: 'Before and after meals', value: 'C' },
+            {
+              label: 'Before and after patient contact, and when hands are visibly soiled',
+              value: 'D',
+            },
+          ],
+        },
+        {
+          id: 'q2',
+          text: 'What is the correct duration for effective handwashing?',
+          correctAnswer: 'B',
+          options: [
+            { label: '5-10 seconds', value: 'A' },
+            { label: '20-30 seconds', value: 'B' },
+            { label: '1 minute', value: 'C' },
+            { label: 'As long as it feels right', value: 'D' },
+          ],
+        },
+        {
+          id: 'q3',
+          text: 'Which is the MOST common route of healthcare-associated infections?',
+          correctAnswer: 'A',
+          options: [
+            { label: 'Contaminated hands', value: 'A' },
+            { label: 'Airborne particles only', value: 'B' },
+            { label: 'Food contamination', value: 'C' },
+            { label: 'Sunlight exposure', value: 'D' },
+          ],
+        },
+        {
+          id: 'q4',
+          text: 'What is the proper technique for donning sterile gloves?',
+          correctAnswer: 'B',
+          options: [
+            { label: 'Put them on quickly without checking', value: 'A' },
+            {
+              label: 'Ensure hands are clean, pick up glove at cuff, slide fingers in carefully',
+              value: 'B',
+            },
+            { label: 'Touch the inside of the glove package', value: 'C' },
+            { label: 'Reuse gloves from a previous patient', value: 'D' },
+          ],
+        },
+        {
+          id: 'q5',
+          text: 'A patient is on contact precautions. Which PPE must you wear?',
+          correctAnswer: 'C',
+          options: [
+            { label: 'Only a mask', value: 'A' },
+            { label: 'Nothing special', value: 'B' },
+            { label: 'Gloves and gown, plus hand hygiene', value: 'C' },
+            { label: 'Only an apron', value: 'D' },
           ],
         },
       ],
