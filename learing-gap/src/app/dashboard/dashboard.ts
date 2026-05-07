@@ -36,7 +36,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     ProgressBarModule,
     TooltipModule,
     TableModule,
-    CarouselModule
+    CarouselModule,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
@@ -337,6 +337,18 @@ export class Dashboard implements OnInit {
 
   ngOnInit(): void {
     this.initializeCharts();
+    const savedIds: string[] = JSON.parse(localStorage.getItem('wardwise_completed') || '[]');
+
+    const syncModule = (mod: any) => {
+      if (savedIds.includes(mod.id)) {
+        mod.completed = true;
+        mod.progress = 100;
+      }
+    };
+
+    this.mandatoryModules.forEach(syncModule);
+    this.optionalModules.forEach(syncModule);
+    this.assessmentModules.forEach(syncModule);
 
     this.route.queryParams.subscribe((params) => {
       const completedId = params['completed'];
@@ -348,33 +360,50 @@ export class Dashboard implements OnInit {
   }
 
   markAsDone(assessmentId: string) {
-    // 1. Find the assessment module itself
+    // 1. Find the assessment module in your list
     const assessment = this.assessmentModules.find((m) => m.id === assessmentId);
 
     if (assessment) {
+      // Mark the assessment itself as done
       assessment.completed = true;
       assessment.progress = 100;
 
-      // 2. Check if this assessment is linked to other modules
+      // --- LOCAL STORAGE LOGIC ---
+      // Get existing saved IDs from browser memory
+      const savedIds: string[] = JSON.parse(localStorage.getItem('wardwise_completed') || '[]');
+
+      // Add this assessment ID to the list if not already there
+      if (!savedIds.includes(assessmentId)) {
+        savedIds.push(assessmentId);
+      }
+
+      // 2. Check if this assessment is linked to other modules (like Mandatory or Optional)
       if (assessment.linkedTo && assessment.linkedTo.moduleIds) {
         const linkedIds = assessment.linkedTo.moduleIds;
 
-        // 3. Mark matching Mandatory modules as completed
+        // 3. Update Mandatory Modules & Add to saved list
         this.mandatoryModules.forEach((mod) => {
           if (linkedIds.includes(mod.id)) {
             mod.completed = true;
             mod.progress = 100;
+            if (!savedIds.includes(mod.id)) savedIds.push(mod.id);
           }
         });
 
-        // 4. Mark matching Optional modules as completed
+        // 4. Update Optional Modules & Add to saved list
         this.optionalModules.forEach((mod) => {
           if (linkedIds.includes(mod.id)) {
             mod.completed = true;
             mod.progress = 100;
+            if (!savedIds.includes(mod.id)) savedIds.push(mod.id);
           }
         });
       }
+
+      // 5. Save the updated list back to LocalStorage
+      localStorage.setItem('wardwise_completed', JSON.stringify(savedIds));
+    } else {
+      console.warn(`Could not find assessment with ID: ${assessmentId}`);
     }
   }
 
@@ -646,5 +675,10 @@ export class Dashboard implements OnInit {
 
   goToTest(module: any) {
     this.router.navigate(['/assessment', module.id]);
+  }
+
+  resetAllProgress() {
+    localStorage.removeItem('wardwise_completed');
+    window.location.reload(); // Refresh to show everything as incomplete again
   }
 }
